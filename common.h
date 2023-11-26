@@ -4,17 +4,24 @@
 
 //game-states definition:
 typedef int tState;
-#define menu_main       0
-#define menu_options    1
-#define menu_scores     2
-#define menu_ranking    3
-#define game_playing    4
-#define game_defeat     5
-#define game_victory    6
+#define state_mainMenu       0
+#define state_optionsMenu    1
+#define state_scoresMenu     2
+#define state_rankingMenu    3
+#define state_playingGame    4
+#define state_defeatGame     5
+#define state_victoryGame    6
 // [...] 
 // Each state defines a screen that a user may interact with
 
-
+typedef char tCommand;
+#define key_UP 'w'
+#define key_DOWN 's'
+#define key_LEFT 'a'
+#define key_RIGHT 'd'
+#define key_E 'e'
+#define key_Q 'q'
+#define key_INVALID '\0'
 
 typedef struct {
     int id;
@@ -29,14 +36,16 @@ typedef struct {
     int score;
 } tGame;
 
-void tick(int key,bool*running,tGame *game,tState *state);
+void tick(tCommand command,bool*running,tGame *game,tState *state);
 /*
 The tick function calls other functions depending on the current state
 it also updates all global variables based on user's last input key
 */
 
-void render(tState state,tGame game);
+void render(tState state,tGame game,int opc);
 /*
 The render function calls other functions to show the screen based on the
 current state and the game variable
 */
+
+tCommand getCommand();

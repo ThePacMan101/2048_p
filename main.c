@@ -8,7 +8,7 @@ int main(){
     bool running=true;
     int key;
     tGame game;
-    tState state;
+    tState state=state_playingGame;//provisory, later change to state_mainMenu
    
     //Game loop
     while(running){
