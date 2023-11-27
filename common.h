@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include <time.h>
 
 #define bool int
 #define true 1
