@@ -27,26 +27,37 @@ void renderPlayingGame(tState state,tGame game){
 
 #define MAX(a,b) (a>b)?a:b
 
-void move(tCommand command,tGame *game){
+/*void move(tCommand command,tGame *game){
         tQueue q,*qp=&q;
         startQueue(qp);
-        tKey aux,prev;
-        int availableIdx;
+        tKey aux;
         switch (command){
         case key_RIGHT:
             for(int i = 0 ; i < 4 ; i++){
                 for(int j = 3 ; j>=0 ; j--){
                     if(game->board[i][j]){
-                        aux.idx=j;
-                        aux.number=game->board[i][j];
-                        pushQueue(qp,aux);
+                        if(popQueue(qp,&aux)){
+                            if(aux.number==game->board[i][j]){
+                                game->board[i][aux.idx]=2*game->board[i][j];
+                                game->board[i][j]=0;
+                            }
+                        }else{
+                            aux.idx=j;
+                            aux.number=game->board[i][j];
+                            pushQueue(qp,aux);
+                            game->board[i][j]=0;
+                        }
                     }
                 }
-                popQueue(qp,&aux);
-
-                popQueue(qp,&prev);
-                popQueue(qp,&aux);
-                if(aux.number==prev.number) game->board[i][prev.idx]=aux.number+prev.number;
+                
+                //if(!popQueue(qp,&aux1)) continue;
+                //if(!popQueue(qp,&aux2)){    //just a single non-zero value
+                //    game->board[i][3]=aux1.number;
+                //    continue;
+                //}if(!popQueue(qp,&aux3)){   //only two non-zero values
+                //    if(aux1.number==aux2.number) game->board[i][aux1.idx]=2*aux1.number;
+                //}
+                
             }
             
             break;
@@ -54,4 +65,31 @@ void move(tCommand command,tGame *game){
             break;
         }
         free(qp);
+}*/
+
+#define b(i,j) game->board[i][j] 
+void move(tCommand command,tGame *game){
+        int prev=0;
+        int idx=-1;
+        switch (command){
+        case key_RIGHT:
+            for(int i = 0 ; i < 4 ; i++){
+                for(int j = 3 ; j>=0 ; j--)
+                    if(b(i,j)){
+                        if(prev==b(i,j)){
+                            b(i,j)=0;
+                            b(i,idx)=2*prev;
+                        }else{
+                            prev=b(i,j);
+                            idx=j;
+                        }
+                    }
+            } 
+            //Now, move everyone to the right until all the zeros are to the left of the non-zero numbers
+            //TODO
+            
+            break;
+        default:
+            break;
+        }
 }
