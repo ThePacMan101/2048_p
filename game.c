@@ -27,6 +27,8 @@ void renderPlayingGame(tState state,tGame game){
 
 #define MAX(a,b) (a>b)?a:b
 
+
+// Tried working with Queues... didn't work
 /*void move(tCommand command,tGame *game){
         tQueue q,*qp=&q;
         startQueue(qp);
