@@ -3,9 +3,14 @@
 #include <stdlib.h>
 #include "common.h"
 
+typedef struct key{
+    int number;
+    int idx;
+}tKey;
+
 typedef struct tElement{
-    int key;
-    tElement *next;
+    tKey key;
+    struct tElement *next;
 } tElement;
 
 typedef struct
@@ -17,6 +22,6 @@ typedef struct
 void startQueue(tQueue *f);
 int sizeQueue(tQueue *f);
 void showQueue(tQueue *f);
-bool pushQueue(tQueue *f, int key);
-bool popQueue(tQueue *f, int *key);
+bool pushQueue(tQueue *f, tKey key);
+bool popQueue(tQueue *f, tKey *key);
 void restartQueue(tQueue *f);

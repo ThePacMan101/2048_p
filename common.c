@@ -1,5 +1,5 @@
-#include "common.h"
 #include "game.h"
+#include <stdio.h>
 
 void tick(tCommand command,bool*running,tGame *game,tState *state){
     switch(*state){
@@ -26,6 +26,7 @@ void tick(tCommand command,bool*running,tGame *game,tState *state){
             //TODO
             break;
         default:
+            break;
     }
 }
 
@@ -54,6 +55,7 @@ void render(tState state,tGame game, int opc){
             //TODO
             break;
         default:
+            break;
     }
 }
 

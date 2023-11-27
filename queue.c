@@ -22,12 +22,12 @@ void showQueue(tQueue *f)
     printf("tQueue: \" ");
     while (end != NULL)
     {
-        printf("%i ", end->key);
+        printf("[%i %i] ", end->key.idx,end->key.number);
         end = end->next;
     }
     printf("\"\n");
 }
-bool pushQueue(tQueue *f, int key)
+bool pushQueue(tQueue *f, tKey key)
 {
     tElement* new = (tElement*)malloc(sizeof(tElement));
     new->key = key;
@@ -39,7 +39,7 @@ bool pushQueue(tQueue *f, int key)
     f->end = new;
     return true;
 }
-bool popQueue(tQueue *f, int *key)
+bool popQueue(tQueue *f, tKey *key)
 {
     if (f->start == NULL)
         return false;

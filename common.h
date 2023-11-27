@@ -23,14 +23,14 @@ typedef char tCommand;
 #define key_Q 'q'
 #define key_INVALID '\0'
 
-typedef struct {
+typedef struct{
     int id;
     char name[20];
     //[...] TODO
 
 }tUser;
 
-typedef struct {
+typedef struct{
     int board[4][4];
     tUser user;
     int score;
