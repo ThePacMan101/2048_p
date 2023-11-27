@@ -1,7 +1,9 @@
-#pragma once
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef QUEUE_H
+#define QUEUE_H
+
+
 #include "common.h"
+
 
 typedef struct key{
     int number;
@@ -25,3 +27,8 @@ void showQueue(tQueue *f);
 bool pushQueue(tQueue *f, tKey key);
 bool popQueue(tQueue *f, tKey *key);
 void restartQueue(tQueue *f);
+
+
+
+
+#endif

@@ -1,5 +1,5 @@
+#include "common.h"
 #include "game.h"
-#include <stdio.h>
 
 void tick(tCommand command,bool*running,tGame *game,tState *state){
     switch(*state){
@@ -45,7 +45,7 @@ void render(tState state,tGame game, int opc){
             //TODO
             break;
         case state_playingGame:
-            renderPlayingGame(game,state);
+            renderPlayingGame(state,game);
             //TODO
             break;
         case state_defeatGame:
@@ -60,7 +60,7 @@ void render(tState state,tGame game, int opc){
 }
 
 tCommand getCommand(){
-    tCommand command = getchar();
+    tCommand command = getch();
     switch(command){
         case key_UP:
         case key_DOWN:

@@ -1,3 +1,11 @@
+#ifndef COMMON_H
+#define COMMON_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+
 #define bool int
 #define true 1
 #define false 0
@@ -27,14 +35,13 @@ typedef struct{
     int id;
     char name[20];
     //[...] TODO
-
 }tUser;
 
 typedef struct{
     int board[4][4];
     tUser user;
     int score;
-} tGame;
+}tGame;
 
 void tick(tCommand command,bool*running,tGame *game,tState *state);
 /*
@@ -49,3 +56,7 @@ current state and the game variable
 */
 
 tCommand getCommand();
+
+
+
+#endif

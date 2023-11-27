@@ -1,6 +1,6 @@
-#pragma once
 #include "common.h"
 #include "queue.h"
+#include "game.h"
 #include <stdio.h>
 
 void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
@@ -14,9 +14,10 @@ void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
     }
 }
 
-void renderPlayingGame(tGame game,tState state){
+void renderPlayingGame(tState state,tGame game){
     //provisory, change later
-    printf("user: %s\nscore: %d\n\n",game.user,game.score);
+    system("cls");
+    printf("user: %s\nscore: %d\n\n",game.user.name,game.score);
     for(int i = 0 ; i < 4 ; i++){
         printf("\t\t");
         for(int j = 0 ; j < 4 ; j ++ ) printf("[%d\t]",game.board[i][j]);
