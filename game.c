@@ -20,7 +20,7 @@ void renderPlayingGame(tState state,tGame game){
     printf("user: %s\nscore: %d\n\n",game.user.name,game.score);
     for(int i = 0 ; i < 4 ; i++){
         printf("\t\t");
-        for(int j = 0 ; j < 4 ; j ++ ) printf("[%d\t]",game.board[i][j]);
+        for(int j = 0 ; j < 4 ; j ++ ) (game.board[i][j])?printf("[%d\t]",game.board[i][j]):printf("[ \t]");
         printf("\n");
     }
 }
