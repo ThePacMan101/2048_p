@@ -18,8 +18,8 @@ int main(){
     //game.board[rand()%4][rand()%4]=(rand()%2 +1)*2;     // in two random spaces on the board
 
     game.board[0][0]=4;
-    game.board[0][1]=0;
-    game.board[0][2]=0;
+    game.board[0][1]=2;
+    game.board[0][2]=4;
     game.board[0][3]=0;
 
 

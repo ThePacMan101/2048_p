@@ -7,7 +7,7 @@
 
 typedef struct key{
     int number;
-    int idx;
+    //int idx;
 }tKey;
 
 typedef struct tElement{

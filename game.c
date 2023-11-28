@@ -73,6 +73,9 @@ void renderPlayingGame(tState state,tGame game){
 void move(tCommand command,tGame *game){
         int prev=0;
         int idx=-1;
+        tQueue *qp=(tQueue*)malloc(sizeof(tQueue));
+        startQueue(qp);
+        tKey aux;
         switch (command){
         case key_RIGHT:
             for(int i = 0 ; i < 4 ; i++){
@@ -87,11 +90,46 @@ void move(tCommand command,tGame *game){
                         }
                     }
             } 
-            //Now, move everyone to the right until all the zeros are to the left of the non-zero numbers
-            //TODO
-            
+            for (int i = 0; i < 4; i++){
+                for(int j = 3 ; j >= 0 ; j--)
+                    if(b(i,j)){
+                        aux.number=b(i,j);
+                        b(i,j)=0;
+                        pushQueue(qp,aux);
+                    }
+                int k=3;
+                while(popQueue(qp,&aux)) b(i,k--)=aux.number;
+            }
+
+            break;
+        case key_LEFT:
+            for(int i = 0 ; i < 4 ; i++){
+                for(int j = 0 ; j<4 ; j++)
+                    if(b(i,j)){
+                        if(prev==b(i,j)){
+                            b(i,j)=0;
+                            b(i,idx)=2*prev;
+                        }else{
+                            prev=b(i,j);
+                            idx=j;
+                        }
+                    }
+            } 
+            for (int i = 0; i < 4; i++){
+                for(int j = 0 ; j < 4 ; j++)
+                    if(b(i,j)){
+                        aux.number=b(i,j);
+                        b(i,j)=0;
+                        pushQueue(qp,aux);
+                    }
+                int k=0;
+                while(popQueue(qp,&aux)) b(i,k++)=aux.number;
+            }
+
             break;
         default:
             break;
         }
+
+        free(qp);
 }

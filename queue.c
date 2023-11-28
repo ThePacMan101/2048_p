@@ -22,7 +22,8 @@ void showQueue(tQueue *f)
     printf("tQueue: \" ");
     while (end != NULL)
     {
-        printf("[%i %i] ", end->key.idx,end->key.number);
+        //printf("[%i %i] ", end->key.idx,end->key.number);
+        printf("[%i] ",end->key.number);
         end = end->next;
     }
     printf("\"\n");
