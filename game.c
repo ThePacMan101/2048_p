@@ -4,6 +4,8 @@
 #include <stdio.h>
 
 void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
+    spawnNewNumbers(game);
+    spawnNewNumbers(game);
     switch(command){
         case key_E:
             break;
@@ -12,6 +14,22 @@ void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
         default:
             move(command,game);   
     }
+}
+#define b(i,j) game->board[i][j] 
+void spawnNewNumbers(tGame* game){
+    int v[16]={0};
+    int k=0;
+    for(int i=0;i<4;i++) for(int j=0;j<4;j++)
+        if(!b(i,j)) v[4*i+j]=++k;
+    if(!k) return;
+    
+    int random = rand()%k+1;
+    for(int i=0;i<16;i++) 
+        if(random==v[i]){
+            v[i]=0;
+            b(i/4,i%4)=(rand()%2 +1)*2;
+            break;
+        }
 }
 
 void renderPlayingGame(tState state,tGame game){
@@ -26,7 +44,7 @@ void renderPlayingGame(tState state,tGame game){
 }
 
 
-#define b(i,j) game->board[i][j] 
+
 void move(tCommand command,tGame *game){
         int prev=0;
         int idx=-1;
