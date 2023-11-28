@@ -22,6 +22,11 @@ int main(){
     game.board[0][2]=4;
     game.board[0][3]=0;
 
+    game.board[1][0]=4;
+    game.board[1][1]=2;
+    game.board[1][2]=2;
+    game.board[1][3]=0;
+
 
     //Game loop
     while(running){

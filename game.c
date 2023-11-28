@@ -25,49 +25,6 @@ void renderPlayingGame(tState state,tGame game){
     }
 }
 
-#define MAX(a,b) (a>b)?a:b
-
-
-// Tried working with Queues... didn't work
-/*void move(tCommand command,tGame *game){
-        tQueue q,*qp=&q;
-        startQueue(qp);
-        tKey aux;
-        switch (command){
-        case key_RIGHT:
-            for(int i = 0 ; i < 4 ; i++){
-                for(int j = 3 ; j>=0 ; j--){
-                    if(game->board[i][j]){
-                        if(popQueue(qp,&aux)){
-                            if(aux.number==game->board[i][j]){
-                                game->board[i][aux.idx]=2*game->board[i][j];
-                                game->board[i][j]=0;
-                            }
-                        }else{
-                            aux.idx=j;
-                            aux.number=game->board[i][j];
-                            pushQueue(qp,aux);
-                            game->board[i][j]=0;
-                        }
-                    }
-                }
-                
-                //if(!popQueue(qp,&aux1)) continue;
-                //if(!popQueue(qp,&aux2)){    //just a single non-zero value
-                //    game->board[i][3]=aux1.number;
-                //    continue;
-                //}if(!popQueue(qp,&aux3)){   //only two non-zero values
-                //    if(aux1.number==aux2.number) game->board[i][aux1.idx]=2*aux1.number;
-                //}
-                
-            }
-            
-            break;
-        default:
-            break;
-        }
-        free(qp);
-}*/
 
 #define b(i,j) game->board[i][j] 
 void move(tCommand command,tGame *game){
@@ -100,7 +57,6 @@ void move(tCommand command,tGame *game){
                 int k=3;
                 while(popQueue(qp,&aux)) b(i,k--)=aux.number;
             }
-
             break;
         case key_LEFT:
             for(int i = 0 ; i < 4 ; i++){
@@ -125,7 +81,54 @@ void move(tCommand command,tGame *game){
                 int k=0;
                 while(popQueue(qp,&aux)) b(i,k++)=aux.number;
             }
-
+            break;
+        case key_UP:
+            for(int i = 0 ; i < 4 ; i++){
+                for(int j = 0 ; j<4 ; j++)
+                    if(b(j,i)){
+                        if(prev==b(j,i)){
+                            b(j,i)=0;
+                            b(idx,i)=2*prev;
+                        }else{
+                            prev=b(j,i);
+                            idx=j;
+                        }
+                    }
+            } 
+            for (int i = 0; i < 4; i++){
+                for(int j = 0 ; j < 4 ; j++)
+                    if(b(j,i)){
+                        aux.number=b(j,i);
+                        b(j,i)=0;
+                        pushQueue(qp,aux);
+                    }
+                int k=0;
+                while(popQueue(qp,&aux)) b(k++,i)=aux.number;
+            }
+            break;
+        case key_DOWN:
+            for(int i = 0 ; i < 4 ; i++){
+                for(int j = 3 ; j>=0 ; j--)
+                    if(b(j,i)){
+                        if(prev==b(j,i)){
+                            b(j,i)=0;
+                            b(idx,i)=2*prev;
+                        }else{
+                            prev=b(j,i);
+                            idx=j;
+                        }
+                    }
+            } 
+            for (int i = 0; i < 4; i++){
+                for(int j = 3 ; j >= 0 ; j--)
+                    if(b(j,i)){
+                        aux.number=b(j,i);
+                        b(j,i)=0;
+                        pushQueue(qp,aux);
+                    }
+                int k=3;
+                while(popQueue(qp,&aux)) b(k--,i)=aux.number;
+            }
             break;
         default:
             break;
