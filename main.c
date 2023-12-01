@@ -15,13 +15,8 @@ int main(){
     sprintf(game.user.name,"no-user");
     
 
-    //spawnNewNumbers(&game);
-    //spawnNewNumbers(&game);
-
-    game.board[0][0] =0;
-    game.board[0][1] =2;
-    game.board[0][2] =2;
-    game.board[0][3] =2;
+    spawnNewNumbers(&game);
+    spawnNewNumbers(&game);
 
     //Game loop
     while(running){

@@ -8,11 +8,15 @@ void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
         case key_E:
             break;
         case key_Q:
-            break; 
+            break;
+        case key_DOWN:case key_LEFT: case key_RIGHT: case key_UP: 
+            move(command,game);
+            spawnNewNumbers(game);
+            break;   
         default:
-            move(command,game);   
+            break;
     }
-    spawnNewNumbers(game);
+    
 }
 
 #define b(i,j) game->board[i][j] 
