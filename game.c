@@ -4,8 +4,6 @@
 #include <stdio.h>
 
 void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
-    spawnNewNumbers(game);
-    spawnNewNumbers(game);
     switch(command){
         case key_E:
             break;
@@ -14,7 +12,9 @@ void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
         default:
             move(command,game);   
     }
+    spawnNewNumbers(game);
 }
+
 #define b(i,j) game->board[i][j] 
 void spawnNewNumbers(tGame* game){
     int v[16]={0};
@@ -33,7 +33,6 @@ void spawnNewNumbers(tGame* game){
 }
 
 void renderPlayingGame(tState state,tGame game){
-    //provisory, change later
     system("cls");
     printf("user: %s\nscore: %d\n\n",game.user.name,game.score);
     for(int i = 0 ; i < 4 ; i++){
@@ -43,8 +42,9 @@ void renderPlayingGame(tState state,tGame game){
     }
 }
 
-
-
+// 4 8 8 2 -> 4 0 16 2 -> 0 4 16 2
+// prev = 2 / idx = 3
+// 
 void move(tCommand command,tGame *game){
         int prev=0;
         int idx=-1;
@@ -54,17 +54,21 @@ void move(tCommand command,tGame *game){
         switch (command){
         case key_RIGHT:
             for(int i = 0 ; i < 4 ; i++){
+                prev=0;
+                idx=-1;
                 for(int j = 3 ; j>=0 ; j--)
                     if(b(i,j)){
                         if(prev==b(i,j)){
                             b(i,j)=0;
                             b(i,idx)=2*prev;
+                            prev=0;
+                            idx=-1;
                         }else{
                             prev=b(i,j);
                             idx=j;
                         }
                     }
-            } 
+            }                            
             for (int i = 0; i < 4; i++){
                 for(int j = 3 ; j >= 0 ; j--)
                     if(b(i,j)){
@@ -74,21 +78,26 @@ void move(tCommand command,tGame *game){
                     }
                 int k=3;
                 while(popQueue(qp,&aux)) b(i,k--)=aux.number;
+                
             }
             break;
         case key_LEFT:
             for(int i = 0 ; i < 4 ; i++){
+                prev=0;
+                idx=-1;
                 for(int j = 0 ; j<4 ; j++)
                     if(b(i,j)){
                         if(prev==b(i,j)){
                             b(i,j)=0;
                             b(i,idx)=2*prev;
+                            prev=0;
+                            idx=-1;
                         }else{
                             prev=b(i,j);
                             idx=j;
                         }
                     }
-            } 
+            }
             for (int i = 0; i < 4; i++){
                 for(int j = 0 ; j < 4 ; j++)
                     if(b(i,j)){
@@ -98,21 +107,26 @@ void move(tCommand command,tGame *game){
                     }
                 int k=0;
                 while(popQueue(qp,&aux)) b(i,k++)=aux.number;
+                
             }
             break;
-        case key_UP:
+        case key_UP: // 4 0 0 4
             for(int i = 0 ; i < 4 ; i++){
+                prev=0;
+                idx=-1;
                 for(int j = 0 ; j<4 ; j++)
                     if(b(j,i)){
                         if(prev==b(j,i)){
                             b(j,i)=0;
                             b(idx,i)=2*prev;
+                            prev=0;
+                            idx=-1;
                         }else{
                             prev=b(j,i);
                             idx=j;
                         }
                     }
-            } 
+            }
             for (int i = 0; i < 4; i++){
                 for(int j = 0 ; j < 4 ; j++)
                     if(b(j,i)){
@@ -122,21 +136,26 @@ void move(tCommand command,tGame *game){
                     }
                 int k=0;
                 while(popQueue(qp,&aux)) b(k++,i)=aux.number;
+                
             }
             break;
         case key_DOWN:
             for(int i = 0 ; i < 4 ; i++){
+                prev=0;
+                idx=-1;
                 for(int j = 3 ; j>=0 ; j--)
                     if(b(j,i)){
                         if(prev==b(j,i)){
                             b(j,i)=0;
                             b(idx,i)=2*prev;
+                            prev=0;
+                            idx=-1;
                         }else{
                             prev=b(j,i);
                             idx=j;
                         }
                     }
-            } 
+            }
             for (int i = 0; i < 4; i++){
                 for(int j = 3 ; j >= 0 ; j--)
                     if(b(j,i)){
@@ -146,6 +165,7 @@ void move(tCommand command,tGame *game){
                     }
                 int k=3;
                 while(popQueue(qp,&aux)) b(k--,i)=aux.number;
+                
             }
             break;
         default:

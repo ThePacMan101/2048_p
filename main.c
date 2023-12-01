@@ -1,5 +1,5 @@
 #include "common.h"
-
+#include "game.h"
 int main(){
     //Global variables declaration
     bool running=true;
@@ -13,21 +13,11 @@ int main(){
     for(int i = 0 ; i < 4 ; i ++) for(int j = 0 ; j < 4 ; j++) game.board[i][j]=0;
     game.score=0;
     sprintf(game.user.name,"no-user");
-    //srand(time(NULL));
-    //game.board[rand()%4][rand()%4]=(rand()%2 +1)*2;     // put 2 or 4 randomly
-    //game.board[rand()%4][rand()%4]=(rand()%2 +1)*2;     // in two random spaces on the board
+    
 
-    game.board[0][0]=4;
-    game.board[0][1]=2;
-    game.board[0][2]=4;
-    game.board[0][3]=0;
-
-    game.board[1][0]=4;
-    game.board[1][1]=2;
-    game.board[1][2]=2;
-    game.board[1][3]=0;
-
-
+    spawnNewNumbers(&game);
+    spawnNewNumbers(&game);
+    
     //Game loop
     while(running){
         render(state,game,opc);             //show current state graphics
@@ -38,6 +28,23 @@ int main(){
 
     return 0;   
 }
+/*
+opc = 0
+
+
+arr{
+0[191]
+1[192]
+2[193]
+3[194]}
+
+switch case(arr[opc])
+case 191:
+case 192:
+...
+
+*/
+
 
 
 /*
