@@ -15,9 +15,14 @@ int main(){
     sprintf(game.user.name,"no-user");
     
 
-    spawnNewNumbers(&game);
-    spawnNewNumbers(&game);
-    
+    //spawnNewNumbers(&game);
+    //spawnNewNumbers(&game);
+
+    game.board[0][0] =0;
+    game.board[0][1] =2;
+    game.board[0][2] =2;
+    game.board[0][3] =2;
+
     //Game loop
     while(running){
         render(state,game,opc);             //show current state graphics
