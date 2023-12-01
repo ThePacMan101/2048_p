@@ -61,6 +61,7 @@ void move(tCommand command,tGame *game){
                         if(prev==b(i,j)){
                             b(i,j)=0;
                             b(i,idx)=2*prev;
+                            game->score+=2*prev;
                             prev=0;
                             idx=-1;
                         }else{
@@ -90,6 +91,7 @@ void move(tCommand command,tGame *game){
                         if(prev==b(i,j)){
                             b(i,j)=0;
                             b(i,idx)=2*prev;
+                            game->score+=2*prev;
                             prev=0;
                             idx=-1;
                         }else{
@@ -119,6 +121,7 @@ void move(tCommand command,tGame *game){
                         if(prev==b(j,i)){
                             b(j,i)=0;
                             b(idx,i)=2*prev;
+                            game->score+=2*prev;
                             prev=0;
                             idx=-1;
                         }else{
@@ -148,6 +151,7 @@ void move(tCommand command,tGame *game){
                         if(prev==b(j,i)){
                             b(j,i)=0;
                             b(idx,i)=2*prev;
+                            game->score+=2*prev;
                             prev=0;
                             idx=-1;
                         }else{
