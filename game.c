@@ -3,6 +3,13 @@
 #include "game.h"
 #include <stdio.h>
 
+void printByColor(int number);
+void move(tCommand command,tGame *game);
+void spawnNewNumbers(tGame* game);
+void tickplayingGame(tCommand command, bool *running,tGame *game,tState *state);
+void renderPlayingGame(tState state, tGame game);
+
+
 void tickPlayingGame(tCommand command, bool *running,tGame *game,tState *state){
     switch(command){
         case key_E:
@@ -36,14 +43,24 @@ void spawnNewNumbers(tGame* game){
         }
 }
 
-void renderPlayingGame(tState state,tGame game){
+void renderPlayingGame(tState state, tGame game) {
     system("cls");
-    printf("user: %s\nscore: %d\n\n",game.user.name,game.score);
-    for(int i = 0 ; i < 4 ; i++){
+    printf("user: %s\nscore: %d\n\n", game.user.name, game.score);
+    for (int i = 0; i < 4; i++) {
         printf("\t\t");
-        for(int j = 0 ; j < 4 ; j ++ ) (game.board[i][j])?printf("[%d\t]",game.board[i][j]):printf("[ \t]");
+        printf("| ");
+        for (int j = 0; j < 4; j++) {
+            if (game.board[i][j]) {
+                printByColor(game.board[i][j]);
+            } else {
+                printf("     | ");
+            }
+        }
         printf("\n");
     }
+    
+    printf("\nPress [Q] to quit.\n");
+    printf("Press arrow keys to move.\n");
 }
 
 // 4 8 8 2 -> 4 0 16 2 -> 0 4 16 2
@@ -181,4 +198,17 @@ void move(tCommand command,tGame *game){
         }
 
         free(qp);
+}
+
+void printByColor(int number) {
+    int exponent = 0;
+    while (number > 1) {
+        number /= 2;
+        exponent++;
+    }
+    int red = 255 - (exponent * 255) / 11;  // Calculate red component
+    int green = (exponent * 255) / 11;      // Calculate blue component
+    printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, green, 1 << exponent);
+    printf(" | ");
+    return;
 }
