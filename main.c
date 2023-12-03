@@ -19,7 +19,7 @@ int main(){
     spawnNewNumbers(&game);
 
     //DOPAMINE BOMB
-
+/*
 game.board[0][0]=2;
 game.board[0][1]=2;
 game.board[0][2]=4;
@@ -36,7 +36,7 @@ game.board[3][0]=32768;
 game.board[3][1]=16384;
 game.board[3][2]=8192;
 game.board[3][3]=4096;
-
+*/
 
     //Game loop
     while(running){
