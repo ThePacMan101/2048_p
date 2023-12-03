@@ -213,3 +213,88 @@ int addNewPlayer(tUser user) {
     fclose(playerFile); //closes playerFile
     return 0;
 }
+
+// void orderPlayersName(tUser *players, int numberOfPlayers) {
+//     tUser temporary;
+//     bool change = false;
+
+// 	for (int end = numberOfPlayers - 1; end > 0; end--) {
+// 		for (int i = 0; i < end; i++) {
+// 			if (strcmp(*(players + i)->name, *(players + i)->name) == 1) {
+//                 change = true;
+//                 temporary = *(players + i);
+//                 *(players + i) = *(players + i + 1);
+//                 *(players + i + 1) = temporary;
+//             }
+//         }
+
+//         if (change == false) return;
+//     }
+// }
+
+
+
+/*
+The function convertPlayersToVector reads all players from the players file 
+and converts them into a vector of type TUser, then sets the variable numbers
+to the number of players read and returns the pointer to the vector
+*/
+tUser *convertPlayersToVector(int *number) {
+
+    //Opens players file
+    FILE *playerFile;
+    if ((playerFile = (fopen("playerFile.dat", "rb"))) == NULL) {
+        printf("An error has occurred. Please restart the game.\n");//Error message
+        return NULL;
+    }
+
+    //Positions file pointer at the beginning of the file
+    rewind(playerFile);
+
+    //Reads an integer, the number of players in the file 
+    int numberOfPlayers;
+    fread(&numberOfPlayers, sizeof(int), 1, playerFile);
+
+    //Reads from the file into the vector
+    tUser *vector = malloc(sizeof(tUser) *numberOfPlayers);
+    if (!vector) {
+        printf("An error has occurred. Please restart the game.\n"); //Error message
+        return NULL;
+    }
+    if(fread((vector), sizeof(tUser), numberOfPlayers, playerFile) < numberOfPlayers) {
+        printf("An error has occurred. Please restart the game.\n"); //Error message
+        return NULL;
+    }
+
+    //Sets the number given in the entry to number of players
+    *number = numberOfPlayers;
+
+    //Returns the pointer to the vector
+    return vector;
+}
+
+void rankPlayers(tUser *players, int numberOfPlayers) {
+    players = convertPlayersToVector(&numberOfPlayers);
+
+    tUser temporary;
+    bool change = false;
+
+    for (int end = numberOfPlayers - 1; end > 0; end--) {
+		for (int i = 0; i < end; i++) {
+			if (((*(players + i)).highScore) > ((*(players + i + 1)).highScore)) {
+                change = true;
+                temporary = *(players + i);
+                *(players + i) = *(players + i + 1);
+                *(players + i + 1) = temporary;
+            }
+        }
+
+        if (change == false) break;
+    }
+
+    printf("\n\t\t\tRANK DE JOGADORES\n");
+
+    for(int i = numberOfPlayers - 1; i >= 0; i--) {
+        printf("\t\tPosition: %d \t Name: %s \t HightScore: %d\n", (i + 1), (*(players+i)).name, (*(players+i)).highScore);
+    }
+}
