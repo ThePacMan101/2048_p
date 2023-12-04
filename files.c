@@ -274,3 +274,69 @@ int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
 
     return -1;
 }
+
+/*
+The function saveGame takes the current state of the board, 
+the score and the user associated to the game and saves it to
+the games file
+*/
+bool saveGame(tGame game) {
+
+    //Current game
+    tGame current = game;
+
+    //Opens the players file
+    FILE *playerFile;
+    if((playerFile = fopen("playerFile.dat", "rb")) == NULL) {
+        printf("Error opening \"playerFile.dat\". Please check if the file already exists.\n");
+        return false; //Game has NOT been successfully saved
+    }
+
+    //Opens the games file 
+    FILE *gameFile;
+    if((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+        printf("Error opening \"gameFile.dat\". Please check if the file already exists.\n");
+        return false; //Game has NOT been successfully saved
+    }
+
+    //Positions the file pointer at the and of the file
+    fseek(gameFile, 0, SEEK_END);
+
+    //Checks if the user already has a save
+    if (game.user.hasSave == true) {
+        printf("User \"%s\" already has a saved game. Do you want to delete it?\n", game.user.name);
+        printf("\nPress [1] to delete previously saved game;");
+        printf("\nPress [2] to cancel operation;");
+        int key;
+        printf("\n\n> ");
+        scanf("%d", &key);
+        while(key != 1) {
+            if (key == 2) {
+                return false; //Game has NOT been successfully saved
+            }
+            printf("Invalid key. Please press [1] or [2].\n");
+            printf("\n\n> ");
+            scanf("%d", &key);
+        }
+
+        //Positions the file pointer at the beginning of the file and reads the number of games
+        rewind(gameFile);
+        int numberOfGames;
+        fread(&numberOfGames, sizeof(int), 1, gameFile);
+
+        //Positions the file pointer right before the game to be overwritten
+        tGame comparisonGame;
+        for (int i = 0; i < numberOfGames; i++) {
+            fread(&comparisonGame, sizeof(tGame), 1, gameFile);
+            if (comparisonGame.user.id == game.user.id) {
+                fseek(gameFile, (-1) * sizeof(tGame), SEEK_CUR);
+                break;
+            }
+        }
+    }
+
+    //Writes the new game to the games file and updates hasSave to true
+    fwrite(&current, sizeof(tGame), 1, gameFile);
+    game.user.hasSave = true;
+    return true; //Game has been successfully saved
+}
