@@ -12,8 +12,6 @@ void tickplayingGame(tCommand command, bool *running, tGame *game, tState *state
 void renderPlayingGame(tState state, tGame game);
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
-    tGame gameBeforeMove = *game;
-
     switch (command) {
         case key_E:
             break;
@@ -23,10 +21,9 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
         case key_LEFT:
         case key_RIGHT:
         case key_UP:
+            tGame gameBeforeMove = *game;
             move(command, game);
-            tGame gameAfterMove;
-            gameAfterMove = *game;
-            if (memcmp(&gameBeforeMove, &gameAfterMove, sizeof(tGame)) == 0) {
+            if (memcmp(&gameBeforeMove, game, sizeof(tGame)) == 0) {
                 break;
             }
             spawnNewNumbers(game);
@@ -57,6 +54,7 @@ void spawnNewNumbers(tGame *game) {
 void renderPlayingGame(tState state, tGame game) {
     system("cls");
     printf("user: %s\nscore: %d\n\n", game.user.name, game.score);
+    printf("\t\t-----------------------------\n");
     for (int i = 0; i < 4; i++) {
         printf("\t\t");
         printf("| ");
@@ -65,18 +63,16 @@ void renderPlayingGame(tState state, tGame game) {
                 printByColor(game.board[i][j]);
             } else {
                 printf("     | ");
-            }
+            };
         }
         printf("\n");
+        printf("\t\t-----------------------------\n");
     }
 
     printf("\nPress [Q] to quit.\n");
     printf("Press arrow keys to move.\n");
 }
 
-// 4 8 8 2 -> 4 0 16 2 -> 0 4 16 2
-// prev = 2 / idx = 3
-//
 void move(tCommand command, tGame *game) {
     int prev = 0;
     int idx = -1;
@@ -142,7 +138,7 @@ void move(tCommand command, tGame *game) {
                 while (popQueue(qp, &aux)) b(i, k++) = aux.number;
             }
             break;
-        case key_UP:  // 4 0 0 4
+        case key_UP: 
             for (int i = 0; i < 4; i++) {
                 prev = 0;
                 idx = -1;

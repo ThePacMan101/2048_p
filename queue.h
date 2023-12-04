@@ -1,24 +1,22 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-
 #include "common.h"
 
-
-typedef struct key{
+typedef struct key {
     int number;
-    //int idx;
-}tKey;
+    // int idx;
+} tKey;
 
-typedef struct tElement{
+typedef struct tElement {
     tKey key;
     struct tElement *next;
 } tElement;
 
 typedef struct
 {
-    tElement* start;
-    tElement* end;
+    tElement *start;
+    tElement *end;
 } tQueue;
 
 void startQueue(tQueue *f);
@@ -27,8 +25,5 @@ void showQueue(tQueue *f);
 bool pushQueue(tQueue *f, tKey key);
 bool popQueue(tQueue *f, tKey *key);
 void restartQueue(tQueue *f);
-
-
-
 
 #endif

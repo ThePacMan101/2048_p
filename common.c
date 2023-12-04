@@ -1,67 +1,68 @@
 #include "common.h"
+
 #include "game.h"
 
-void tick(tCommand command,bool*running,tGame *game,tState *state){
-    switch(*state){
+void tick(tCommand command, bool *running, tGame *game, tState *state) {
+    switch (*state) {
         case state_mainMenu:
-            //TODO
+            // TODO
             break;
-        case state_optionsMenu:  
-            //TODO
+        case state_optionsMenu:
+            // TODO
             break;
         case state_scoresMenu:
-            //TODO
+            // TODO
             break;
         case state_rankingMenu:
-            //TODO
+            // TODO
             break;
         case state_playingGame:
-            tickPlayingGame(command,running,game,state);
-            //TODO
+            tickPlayingGame(command, running, game, state);
+            // TODO
             break;
         case state_defeatGame:
-            //TODO
+            // TODO
             break;
         case state_victoryGame:
-            //TODO
+            // TODO
             break;
         default:
             break;
     }
 }
 
-void render(tState state,tGame game, int opc){
-    switch(state){
+void render(tState state, tGame game, int opc) {
+    switch (state) {
         case state_mainMenu:
-            //TODO
+            // TODO
             break;
-        case state_optionsMenu:  
-            //TODO
+        case state_optionsMenu:
+            // TODO
             break;
         case state_scoresMenu:
-            //TODO
+            // TODO
             break;
         case state_rankingMenu:
-            //TODO
+            // TODO
             break;
         case state_playingGame:
-            renderPlayingGame(state,game);
-            //TODO
+            renderPlayingGame(state, game);
+            // TODO
             break;
         case state_defeatGame:
-            //TODO
+            // TODO
             break;
         case state_victoryGame:
-            //TODO
+            // TODO
             break;
         default:
             break;
     }
 }
 
-tCommand getCommand(){
+tCommand getCommand() {
     tCommand command = getch();
-    switch(command){
+    switch (command) {
         case key_UP:
         case key_DOWN:
         case key_LEFT:
@@ -70,6 +71,7 @@ tCommand getCommand(){
         case key_Q:
             return command;
         default:
-            return key_INVALID;       
+            return key_INVALID;
     }
 }
+//
