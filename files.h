@@ -9,7 +9,5 @@ int addNewPlayer(tUser user);
 void orderPlayersName(tUser *players, int numberOfPlayers);
 void rankPlayers(tUser *players, int numberOfPlayers);
 int findPlayer(tUser *players, int numberOfPlayers, char nome[]);
-
 bool saveGame(tGame game);
-
-//Load Game
+tGame *loadGame(tUser user);

@@ -1,7 +1,5 @@
 #include "files.h"
-
 #include <stdio.h>
-
 #include "common.h"
 
 /*
@@ -274,7 +272,7 @@ int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
 
 /*
 The function saveGame takes the current state of the board,
-the score and the user associated to the game and saves it to
+the score and the user associated to the game, and saves it to
 the games file
 */
 bool saveGame(tGame game) {
@@ -335,4 +333,44 @@ bool saveGame(tGame game) {
     fwrite(&current, sizeof(tGame), 1, gameFile);
     game.user.hasSave = true;
     return true;  // Game has been successfully saved
+}
+
+/*
+This loadGame function takes the current user as an argument, and
+implements a "linear search algorithm", trying to find the last 
+saved game of said user, and returning it at a success (or NULL at a 
+failure).
+*/
+tGame *loadGame(tUser user) {
+    //Detects if the user has a saved game.
+    if(user.hasSave == false) {
+        printf("This user doesn't have a saved game! Please select a user with saved game.\n");
+        return NULL;
+    } 
+    else {
+        //Opens the game file
+        FILE *gameFile;
+        if((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+            printf("Error opening \"gameFile.dat\". Please check if the file already exists.\n");
+            return NULL; //Game has NOT been successfully saved
+        }
+
+        //Reads the amount of games saved in the game file
+        int numberOfGames; 
+        fread(&numberOfGames, sizeof(int), 1, gameFile);
+
+        /*"LINEAR SEARCH ALGORITHM": iterates through all the saved games until we find one with maching user id*/
+        tGame *comparisonGame;
+        comparisonGame = (tGame *) malloc(sizeof(tGame));
+        for (int i = 0; i < numberOfGames; i++) {
+            fread(&comparisonGame, sizeof(tGame), 1, gameFile);
+            if (comparisonGame->user.id == user.id) {
+                return comparisonGame;
+            }
+        }
+        
+        //Couldn't find any game with said user ID
+        printf("Error loading game. Program was not able to find user in \"gameFile.dat\".");
+        return NULL;
+    }
 }
