@@ -57,7 +57,7 @@ void renderPlayingGame(tState state, tGame game) {
     system("cls");
     printf("user: %s\n", game.user.name);
     printf("score: %d\n", game.score);
-    printf("highscore: %d\n\n", game.user.highscore);
+    printf("highscore: %d\n\n", game.user.highScore>game.score?game.user.highScore:game.score);
     printf("\n");
     for (int i = 0; i < 4; i++) {
         printf("\t\t");
