@@ -31,6 +31,7 @@ typedef char tCommand;
 #define key_RIGHT 'd'
 #define key_E 'e'
 #define key_Q 'q'
+#define key_LEAVE '0'
 #define key_INVALID '\0'
 
 typedef struct {
@@ -47,18 +48,24 @@ typedef struct {
     int score;
 } tGame;
 
-void tick(tCommand command, bool *running, tGame *game, tState *state);
 /*
 The tick function calls other functions depending on the current state
 it also updates all global variables based on user's last input key
 */
 
-void render(tState state, tGame game, int opc);
+void tick(tCommand command, bool *running, tGame *game, tState *state);
+
 /*
 The render function calls other functions to show the screen based on the
 current state and the game variable
 */
+void render(tState state, tGame game, int opc);
 
 tCommand getCommand();
+
+/*
+The renderLogo function shows the game logo art on the screen
+*/
+void renderLogo();
 
 #endif

@@ -1,8 +1,7 @@
 #include "game.h"
 
-#include <stdio.h>
-
 #include "common.h"
+#include "menu.h"
 #include "queue.h"
 
 void printByColor(int number);
@@ -12,17 +11,17 @@ void tickplayingGame(tCommand command, bool *running, tGame *game, tState *state
 void renderPlayingGame(tState state, tGame game);
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
-
     switch (command) {
         case key_E:
             break;
-        case key_Q:
-        *running = false;
+        case key_LEAVE:
+            *running = false;
             break;
         case key_DOWN:
         case key_LEFT:
         case key_RIGHT:
         case key_UP:
+            checkForGameOver(*game, state);
             tGame gameBeforeMove = *game;
             move(command, game);
             if (memcmp(&gameBeforeMove, game, sizeof(tGame)) == 0) {
@@ -41,7 +40,9 @@ void spawnNewNumbers(tGame *game) {
     int k = 0;
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (!b(i, j)) v[4 * i + j] = ++k;
+            if (!b(i, j)) {
+                v[4 * i + j] = ++k;
+            }
     if (!k) return;
 
     int random = rand() % k + 1;
@@ -55,12 +56,43 @@ void spawnNewNumbers(tGame *game) {
 
 void renderPlayingGame(tState state, tGame game) {
     system("cls");
-    printf("user: %s\n", game.user.name);
-    printf("score: %d\n", game.score);
-    printf("highscore: %d\n\n", game.user.highScore>game.score?game.user.highScore:game.score);
+    renderLogo();
+    printf("\n");
+
+    if (game.user.id != -1) {
+        printf("\tPlayer Name: %s\n", game.user.name);
+        printf("\tScore:       %d\n", game.score);
+        if (game.user.highScore > game.score) {
+            printf("\tHighscore:   %d", game.user.highScore);
+        } else {
+            printf("\tHighscore:   %d!", game.score);
+        }
+    } else {
+        printf("\tScore:       %d\n", game.score);
+        printf("\tHighscore:   %d", game.score);
+    }
+
+    printf("\n\n");
+    printBoard(game);
+    printf("\n\n");
+
+    printf("\tPress [W] to move up.\n");
+    printf("\tPress [A] to move left.\n");
+    printf("\tPress [S] to move down.\n");
+    printf("\tPress [D] to move right.\n");
+
+    printf("\n\n");
+    if (game.user.id != -1) {
+        printf("\tPress [E] to save and quit.\n");
+    }
+
+    printf("\tPress [0] to quit.\n");
+}
+
+void printBoard(tGame game) {
     printf("\n");
     for (int i = 0; i < 4; i++) {
-        printf("\t\t");
+        printf("\t\t\t\t  ");
         printf("| ");
         for (int j = 0; j < 4; j++) {
             if (game.board[i][j]) {
@@ -71,14 +103,6 @@ void renderPlayingGame(tState state, tGame game) {
         }
         printf("\n\n");
     }
-
-    
-    printf("Press [W] to move up.\n");
-    printf("Press [A] to move left.\n");
-    printf("Press [S] to move down.\n");
-    printf("Press [D] to move right.\n");
-
-    printf("\nPress [Q] to quit.\n");
 }
 
 void move(tCommand command, tGame *game) {
@@ -218,7 +242,7 @@ void printByColor(int number) {
         exponent++;
     }
     int red = 255 - (exponent * 255) / 11;  // Calculate red component
-    int blue = (exponent * 255) / 11;      // Calculate blue component
+    int blue = (exponent * 255) / 11;       // Calculate blue component
     printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, blue, 1 << exponent);
     printf(" | ");
     return;
@@ -228,12 +252,22 @@ void startGame(tGame *game) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++) game->board[i][j] = 0;
     game->score = 0;
+    game->user.id = -1;
     sprintf(game->user.name, "no-user");
-
     spawnNewNumbers(game);
     spawnNewNumbers(game);
 }
 
-void wantToQuit() {
-
+void checkForGameOver(tGame game, tState *state) {
+    tGame auxiliar = game;
+    move(key_UP, &auxiliar);
+    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+        move(key_LEFT, &auxiliar);
+    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+        move(key_DOWN, &auxiliar);
+    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+        move(key_RIGHT, &auxiliar);
+    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+        *state = state_defeatGame;
+    return;
 }

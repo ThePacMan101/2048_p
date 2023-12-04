@@ -15,4 +15,9 @@ void printByColor(int number);
 
 void startGame(tGame *game);
 
+void checkForGameOver(tGame game, tState *state);
+
+void printBoard(tGame game);
+
+
 #endif

@@ -4,6 +4,7 @@
 
 #define DOPAMINEBOMB 0
 int main() {
+    srand(time(0));
     bool running = true;
     tCommand key;
     tGame game;
