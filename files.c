@@ -264,7 +264,7 @@ int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
         else if (strcmp((*(players + middle)).name, name) > 0)
             right = middle - 1;
         else
-            return middle;
+            return 1;
     }
 
     return -1;
