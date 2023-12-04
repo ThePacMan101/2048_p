@@ -1,5 +1,10 @@
 #include "common.h"
 #include "game.h"
+#include "files.h"
+
+int main(){
+    //Global variables declaration
+    bool running=true;
 
 #define DOPAMINEBOMB 0
 int main() {
@@ -8,6 +13,24 @@ int main() {
     tGame game;
     tState state = state_mainMenu; 
     int opc = 0;
+    tState state=state_playingGame;//provisory, later change to state_mainMenu
+    int opc=0;
+
+    // Initializes files
+    if(initializeFiles() == - 1) {
+        return -1;
+    }
+
+    // printf("Input user name: ");
+    // scanf("%s", game.user.name);
+
+
+    //later turn this into a function to initialize game
+    for(int i = 0 ; i < 4 ; i ++) for(int j = 0 ; j < 4 ; j++) game.board[i][j]=0;
+    game.score=0;
+    
+    spawnNewNumbers(&game);
+    spawnNewNumbers(&game);
 
     if(DOPAMINEBOMB) {
     game.board[0][0]=2;
@@ -34,6 +57,8 @@ int main() {
         key = getCommand();         // show current state graphics                 // get user command
         tick(key, &running, &game, &state);  // do stuff, update variables
     }
+
+    
 
     return 0;
 }
