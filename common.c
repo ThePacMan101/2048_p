@@ -1,11 +1,11 @@
 #include "common.h"
-
+#include "menu.h"
 #include "game.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
         case state_mainMenu:
-            // TODO
+            tickMainMenu(command, running, game, state);
             break;
         case state_optionsMenu:
             // TODO
@@ -34,7 +34,7 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
 void render(tState state, tGame game, int opc) {
     switch (state) {
         case state_mainMenu:
-            // TODO
+            renderMainMenu(state);
             break;
         case state_optionsMenu:
             // TODO
@@ -62,16 +62,6 @@ void render(tState state, tGame game, int opc) {
 
 tCommand getCommand() {
     tCommand command = getch();
-    switch (command) {
-        case key_UP:
-        case key_DOWN:
-        case key_LEFT:
-        case key_RIGHT:
-        case key_E:
-        case key_Q:
-            return command;
-        default:
-            return key_INVALID;
-    }
+    return command;
 }
 //

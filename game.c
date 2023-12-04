@@ -12,10 +12,12 @@ void tickplayingGame(tCommand command, bool *running, tGame *game, tState *state
 void renderPlayingGame(tState state, tGame game);
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
+
     switch (command) {
         case key_E:
             break;
         case key_Q:
+        *running = false;
             break;
         case key_DOWN:
         case key_LEFT:
@@ -53,8 +55,10 @@ void spawnNewNumbers(tGame *game) {
 
 void renderPlayingGame(tState state, tGame game) {
     system("cls");
-    printf("user: %s\nscore: %d\n\n", game.user.name, game.score);
-    printf("\t\t-----------------------------\n");
+    printf("user: %s\n", game.user.name);
+    printf("score: %d\n", game.score);
+    printf("highscore: %d\n\n", game.user.highscore);
+    printf("\n");
     for (int i = 0; i < 4; i++) {
         printf("\t\t");
         printf("| ");
@@ -65,12 +69,16 @@ void renderPlayingGame(tState state, tGame game) {
                 printf("     | ");
             };
         }
-        printf("\n");
-        printf("\t\t-----------------------------\n");
+        printf("\n\n");
     }
 
+    
+    printf("Press [W] to move up.\n");
+    printf("Press [A] to move left.\n");
+    printf("Press [S] to move down.\n");
+    printf("Press [D] to move right.\n");
+
     printf("\nPress [Q] to quit.\n");
-    printf("Press arrow keys to move.\n");
 }
 
 void move(tCommand command, tGame *game) {
@@ -138,7 +146,7 @@ void move(tCommand command, tGame *game) {
                 while (popQueue(qp, &aux)) b(i, k++) = aux.number;
             }
             break;
-        case key_UP: 
+        case key_UP:
             for (int i = 0; i < 4; i++) {
                 prev = 0;
                 idx = -1;
@@ -210,8 +218,22 @@ void printByColor(int number) {
         exponent++;
     }
     int red = 255 - (exponent * 255) / 11;  // Calculate red component
-    int green = (exponent * 255) / 11;      // Calculate blue component
-    printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, green, 1 << exponent);
+    int blue = (exponent * 255) / 11;      // Calculate blue component
+    printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, blue, 1 << exponent);
     printf(" | ");
     return;
+}
+
+void startGame(tGame *game) {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++) game->board[i][j] = 0;
+    game->score = 0;
+    sprintf(game->user.name, "no-user");
+
+    spawnNewNumbers(game);
+    spawnNewNumbers(game);
+}
+
+void wantToQuit() {
+
 }

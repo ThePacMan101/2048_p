@@ -13,4 +13,6 @@ void spawnNewNumbers(tGame *game);
 
 void printByColor(int number);
 
+void startGame(tGame *game);
+
 #endif
