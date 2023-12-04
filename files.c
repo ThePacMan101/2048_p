@@ -86,71 +86,43 @@ int initializeFiles() {
     return 0;
 }
 
-int saveGame(tGame game, tUser user) {
-    FILE *file_game;
+/*
+The function convertPlayersToVector reads all players from the players file 
+and converts them into a vector of type tUser, then sets the variable numbers
+to the number of players read and returns the pointer to the vector
+*/
+tUser *convertPlayersToVector(int *number) {
 
-    if((file_game = fopen("files_game.dat", "wb")) == NULL) {
-        printf("Error saving game!");
-        return -1;
+    //Opens players file
+    FILE *playerFile;
+    if ((playerFile = (fopen("playerFile.dat", "rb"))) == NULL) {
+        printf("An error has occurred. Please restart the game.\n");//Error message
+        return NULL;
     }
 
-    //Detectar se já existe um jogo salvo com esse nome
+    //Positions file pointer at the beginning of the file
+    rewind(playerFile);
 
-    else {
-        //
-        
+    //Reads an integer, the number of players in the file 
+    int numberOfPlayers;
+    fread(&numberOfPlayers, sizeof(int), 1, playerFile);
+
+    //Reads from the file into the vector
+    tUser *vector = malloc(sizeof(tUser) *numberOfPlayers);
+    if (!vector) {
+        printf("An error has occurred. Please restart the game1.\n"); //Error message
+        return NULL;
+    }
+    if(fread((vector), sizeof(tUser), numberOfPlayers, playerFile) < numberOfPlayers) {
+        printf("An error has occurred. Please restart the game2.\n"); //Error message
+        return NULL;
     }
 
-    return 0;
+    //Sets the number given in the entry to number of players
+    *number = numberOfPlayers;
 
-}
-
-int loadGame(tGame *game) {
-    FILE *file_game;
-
-    if((file_game = fopen("files_game.dat", "rb")) == NULL) {
-        printf("Error saving game!");
-        return -1;
-    }
-
-    else {
-        fread(game, sizeof(tGame), 1, file_game);
-        return 0;
-    }
-
-    //Abrir o arquivo em modo de leitura
-        //Checar abertura
-    //Posicionar o arquivo na posição correta
-    //Ler o jogo e definir como jogo
-}
-
-int convertVector(tGame *games) {
-    
-    tGame game;
-    FILE *file_game;
-
-    int count = 0;
-
-    if((file_game = fopen("files_game.dat", "rb")) == NULL) {
-        printf("Error opening file!");
-        return -1;
-    }
-
-    while (!fread(&game, sizeof(tGame), 1, file_game)) {
-        count++;
-    } 
-    
-    fseek(file_game, 0, SEEK_SET);
-
-    games = (tGame *) malloc(sizeof(tGame)*count);
-
-    int i = 0;
-    while (!fread(&game, sizeof(tGame), 1, file_game)) {
-        *(games + i) = game;
-        i++;
-    }
-
-    return 0;
+    //Returns the pointer to the vector
+    return vector;
 }
 
 /*
@@ -214,71 +186,19 @@ int addNewPlayer(tUser user) {
     return 0;
 }
 
-// void orderPlayersName(tUser *players, int numberOfPlayers) {
-//     tUser temporary;
-//     bool change = false;
-
-// 	for (int end = numberOfPlayers - 1; end > 0; end--) {
-// 		for (int i = 0; i < end; i++) {
-// 			if (strcmp(*(players + i)->name, *(players + i)->name) == 1) {
-//                 change = true;
-//                 temporary = *(players + i);
-//                 *(players + i) = *(players + i + 1);
-//                 *(players + i + 1) = temporary;
-//             }
-//         }
-
-//         if (change == false) return;
-//     }
-// }
-
-
-
 /*
-The function convertPlayersToVector reads all players from the players file 
-and converts them into a vector of type TUser, then sets the variable numbers
-to the number of players read and returns the pointer to the vector
+This rankPlayers function orders a vector of type tUser, using 
+the convertPlayersToVector function, and them implements a bubble sort
+algorithm to order the users by their highScores. Then, we print in 
+the terminal the sorted vector. 
 */
-tUser *convertPlayersToVector(int *number) {
-
-    //Opens players file
-    FILE *playerFile;
-    if ((playerFile = (fopen("playerFile.dat", "rb"))) == NULL) {
-        printf("An error has occurred. Please restart the game.\n");//Error message
-        return NULL;
-    }
-
-    //Positions file pointer at the beginning of the file
-    rewind(playerFile);
-
-    //Reads an integer, the number of players in the file 
-    int numberOfPlayers;
-    fread(&numberOfPlayers, sizeof(int), 1, playerFile);
-
-    //Reads from the file into the vector
-    tUser *vector = malloc(sizeof(tUser) *numberOfPlayers);
-    if (!vector) {
-        printf("An error has occurred. Please restart the game.\n"); //Error message
-        return NULL;
-    }
-    if(fread((vector), sizeof(tUser), numberOfPlayers, playerFile) < numberOfPlayers) {
-        printf("An error has occurred. Please restart the game.\n"); //Error message
-        return NULL;
-    }
-
-    //Sets the number given in the entry to number of players
-    *number = numberOfPlayers;
-
-    //Returns the pointer to the vector
-    return vector;
-}
-
 void rankPlayers(tUser *players, int numberOfPlayers) {
-    players = convertPlayersToVector(&numberOfPlayers);
+    players = convertPlayersToVector(&numberOfPlayers); //Gets the vector with all players
 
     tUser temporary;
-    bool change = false;
+    bool change = false; //Flag to check if any changes were made in the last iteration
 
+    /*BUBBLE SORT ALGORITHM*/
     for (int end = numberOfPlayers - 1; end > 0; end--) {
 		for (int i = 0; i < end; i++) {
 			if (((*(players + i)).highScore) > ((*(players + i + 1)).highScore)) {
@@ -289,12 +209,65 @@ void rankPlayers(tUser *players, int numberOfPlayers) {
             }
         }
 
-        if (change == false) break;
+        if (change == false) break; //If no changes were made, then the vector is already ordered
     }
 
-    printf("\n\t\t\tRANK DE JOGADORES\n");
+    /*PRINTING PLAYER'S RANK IN TERMINAL*/
+
+    printf("\n\t\t\tRANK\n");
 
     for(int i = numberOfPlayers - 1; i >= 0; i--) {
         printf("\t\tPosition: %d \t Name: %s \t HightScore: %d\n", (i + 1), (*(players+i)).name, (*(players+i)).highScore);
     }
+}
+
+/*
+This orderPlayersName function orders a vector of type tUser 
+in alphabetical order, using the strcmp function and a 
+bubble sort algorithm. 
+*/
+void orderPlayersName(tUser *players, int numberOfPlayers) {    
+    tUser temporary; 
+    bool change = false; //Flag to check if any changes were made in the last iteration
+
+    /*BUBBLE SORT ALGORITHM*/
+	for (int end = numberOfPlayers - 1; end > 0; end--) {
+		for (int i = 0; i < end; i++) {
+			if (strcmp((*(players + i)).name, (*(players + i + 1)).name) > 0) {
+                change = true;
+                temporary = *(players + i);
+                *(players + i) = *(players + i + 1);
+                *(players + i + 1) = temporary;
+            }
+        }
+
+        if(change == false) break; //If no changes were made, the vector is already ordered
+    }
+}
+
+/*
+This findPlayer function gets the alphabetically ordered vector with all players in playerFile.dat 
+(using convertPlayersToVector and orderPlayersName), and implements a binary search to find the
+player that has the same name passed in the argument. The function returns the vector's index
+of said user, or -1 if no user with that name was found. 
+*/
+int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
+    players = convertPlayersToVector(&numberOfPlayers);
+    orderPlayersName(players, numberOfPlayers);
+    
+
+    /*BINARY SEARCH ALGORITHM*/
+
+    int left = 0, right = numberOfPlayers - 1;
+    int middle;
+    
+    while (left <= right) {
+        middle = (left + right)/2;
+
+        if(strcmp((*(players + middle)).name, name) < 0) left = middle + 1;
+        else if (strcmp((*(players + middle)).name, name) > 0) right = middle - 1;
+        else return middle;
+    }
+
+    return -1;
 }
