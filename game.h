@@ -11,4 +11,6 @@ void move(tCommand command, tGame *game);
 
 void spawnNewNumbers(tGame *game);
 
+void printByColor(int number);
+
 #endif
