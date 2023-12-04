@@ -61,4 +61,6 @@ current state and the game variable
 
 tCommand getCommand();
 
+void emptyGameBoard(tGame *game);
+
 #endif

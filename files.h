@@ -11,3 +11,4 @@ void rankPlayers(tUser *players, int numberOfPlayers);
 int findPlayer(tUser *players, int numberOfPlayers, char nome[]);
 bool saveGame(tGame game);
 tGame *loadGame(tUser user);
+bool resetGame(tUser user);

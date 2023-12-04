@@ -374,3 +374,55 @@ tGame *loadGame(tUser user) {
         return NULL;
     }
 }
+
+/*
+The resetGame function recevies a user, then seraches for
+a game in the games file registered with the give user and 
+writes an empty game with score 0 over the previously registered
+game. If the user doesn't any saved game, the function does 
+nothing with the files and shows an error message.
+*/
+bool resetGame(tUser user) {
+
+    //If user doesn't have any saved game, shows an error message
+    if (user.hasSave == false) {
+        printf("Error. There is no game to reset.\n"); //Error message
+        return false;
+    }
+
+    //Otherwise, empties saved game
+
+    //Opens games file
+    FILE *gameFile;
+    if ((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+        printf("An error has occurred. Please check if the file \"gameFile.dat\" exists in your directory.\n"); //Error message
+        return false;
+    }
+
+    //Positions the file cursor at the beginning of the file
+    rewind(gameFile);
+
+    //Reads the number of registered games
+    int numberOfGames;
+    fread(&numberOfGames, sizeof(int), 1, gameFile);
+
+    //Searches for user's saved game
+    tGame comparisonGame;
+    for (int i = 0; i < numberOfGames; i++) {
+        fread(&comparisonGame, sizeof(tGame), 1, gameFile);
+        if (user.id == comparisonGame.user.id) {
+            fseek(gameFile, (-1) * sizeof(tGame), SEEK_CUR);
+            break;
+        }
+    }
+
+    //Overwrites the saved game with an empty one
+    tGame emptyGame;
+    emptyGame.score = 0;
+    emptyGame.user = user;
+    emptyGameBoard(&emptyGame);
+    fwrite(&emptyGame, sizeof(tGame), 1, gameFile);
+
+    //Game has been successfully reseted
+    return true;
+}
