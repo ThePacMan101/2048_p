@@ -12,7 +12,7 @@ int initializeFiles() {
     int numberOfPlayers; //number of players
     int key; //key pressed
     
-    if((playerFile = fopen("playerFile.dat", "rb+")) == NULL) { //detecting if the file exists
+    if((playerFile = fopen("assets/playerFile.dat", "rb+")) == NULL) { //detecting if the file exists
         printf("Error opening player files! playerFile.dat does not exist. Do you want to create it?\n");
         printf("\nPress [1] to create file;");
         printf("\nPress [2] to finish application;");
@@ -34,6 +34,7 @@ int initializeFiles() {
             }
         }
         else {
+            //Jogar como guest
             printf("\nClosing app...\n");
             return -1;
         }
@@ -53,7 +54,7 @@ int initializeFiles() {
     /*GAMEFILE*/
     FILE *gameFile; //pointer to binary playerFile
     
-    if((gameFile = fopen("gameFile.dat", "rb+")) == NULL) { //detecting if the file exists
+    if((gameFile = fopen("assets/gameFile.dat", "rb+")) == NULL) { //detecting if the file exists
         printf("Error opening game files! gameFile.dat does not exist. Do you want to create it?\n");
         printf("\nPress [1] to create file;");
         printf("\nPress [2] to finish application;");
@@ -80,6 +81,8 @@ int initializeFiles() {
         }
     }
     
+    //INICIALIZAR
+
     //Everything OK with game file
     fclose(gameFile);
 
