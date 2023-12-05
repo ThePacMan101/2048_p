@@ -70,4 +70,6 @@ The renderLogo function shows the game logo art on the screen
 */
 void renderLogo();
 
+void emptyGameBoard(tGame *game);
+
 #endif

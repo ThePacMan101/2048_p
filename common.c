@@ -71,7 +71,26 @@ tCommand getCommand() {
     tCommand command = getch();
     return command;
 }
-//
+
+void emptyGameBoard(tGame *game) {
+    game->board[0][0] = 0;
+    game->board[0][1] = 0;
+    game->board[0][2] = 0;
+    game->board[0][3] = 0;
+    game->board[1][0] = 0;
+    game->board[1][1] = 0;
+    game->board[1][2] = 0;
+    game->board[1][3] = 0;
+    game->board[2][0] = 0;
+    game->board[2][1] = 0;
+    game->board[2][2] = 0;
+    game->board[2][3] = 0;
+    game->board[3][0] = 0;
+    game->board[3][1] = 0; 
+    game->board[3][2] = 0; 
+    game->board[3][3] = 0;
+    return;
+}
 
 void renderLogo() {
     system("cls");
@@ -88,4 +107,24 @@ void renderLogo() {
     printf("\t\033[38;2;0;0;255m         \\///////////////     \\///////               \\///        \\/////////     \033[0m\n");
     printf("\n");
     printf("\t___________________________________________________________________________________\n");
+}
+
+void emptyGameBoard(tGame *game) {
+    game->board[0][0] = 0;
+    game->board[0][1] = 0;
+    game->board[0][2] = 0;
+    game->board[0][3] = 0;
+    game->board[1][0] = 0;
+    game->board[1][1] = 0;
+    game->board[1][2] = 0;
+    game->board[1][3] = 0;
+    game->board[2][0] = 0;
+    game->board[2][1] = 0;
+    game->board[2][2] = 0;
+    game->board[2][3] = 0;
+    game->board[3][0] = 0;
+    game->board[3][1] = 0; 
+    game->board[3][2] = 0; 
+    game->board[3][3] = 0;
+    return;
 }

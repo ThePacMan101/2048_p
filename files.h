@@ -18,5 +18,7 @@ int findPlayer(tUser *players, int numberOfPlayers, char nome[]);
 
 bool saveGame(tGame game);
 
-// Load Game
+tGame *loadGame(tUser user);
+
+bool resetGame(tUser user);
 #endif

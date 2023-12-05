@@ -1,7 +1,5 @@
 #include "files.h"
-
 #include <stdio.h>
-
 #include "common.h"
 
 /*
@@ -266,7 +264,7 @@ int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
         else if (strcmp((*(players + middle)).name, name) > 0)
             right = middle - 1;
         else
-            return middle;
+            return 1;
     }
 
     return -1;
@@ -274,7 +272,7 @@ int findPlayer(tUser *players, int numberOfPlayers, char name[]) {
 
 /*
 The function saveGame takes the current state of the board,
-the score and the user associated to the game and saves it to
+the score and the user associated to the game, and saves it to
 the games file
 */
 bool saveGame(tGame game) {
@@ -335,4 +333,96 @@ bool saveGame(tGame game) {
     fwrite(&current, sizeof(tGame), 1, gameFile);
     game.user.hasSave = true;
     return true;  // Game has been successfully saved
+}
+
+/*
+This loadGame function takes the current user as an argument, and
+implements a "linear search algorithm", trying to find the last 
+saved game of said user, and returning it at a success (or NULL at a 
+failure).
+*/
+tGame *loadGame(tUser user) {
+    //Detects if the user has a saved game.
+    if(user.hasSave == false) {
+        printf("This user doesn't have a saved game! Please select a user with saved game.\n");
+        return NULL;
+    } 
+    else {
+        //Opens the game file
+        FILE *gameFile;
+        if((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+            printf("Error opening \"gameFile.dat\". Please check if the file already exists.\n");
+            return NULL; //Game has NOT been successfully saved
+        }
+
+        //Reads the amount of games saved in the game file
+        int numberOfGames; 
+        fread(&numberOfGames, sizeof(int), 1, gameFile);
+
+        /*"LINEAR SEARCH ALGORITHM": iterates through all the saved games until we find one with maching user id*/
+        tGame *comparisonGame;
+        comparisonGame = (tGame *) malloc(sizeof(tGame));
+        for (int i = 0; i < numberOfGames; i++) {
+            fread(&comparisonGame, sizeof(tGame), 1, gameFile);
+            if (comparisonGame->user.id == user.id) {
+                return comparisonGame;
+            }
+        }
+        
+        //Couldn't find any game with said user ID
+        printf("Error loading game. Program was not able to find user in \"gameFile.dat\".");
+        return NULL;
+    }
+}
+
+/*
+The resetGame function recevies a user, then seraches for
+a game in the games file registered with the give user and 
+writes an empty game with score 0 over the previously registered
+game. If the user doesn't any saved game, the function does 
+nothing with the files and shows an error message.
+*/
+bool resetGame(tUser user) {
+
+    //If user doesn't have any saved game, shows an error message
+    if (user.hasSave == false) {
+        printf("Error. There is no game to reset.\n"); //Error message
+        return false;
+    }
+
+    //Otherwise, empties saved game
+
+    //Opens games file
+    FILE *gameFile;
+    if ((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+        printf("An error has occurred. Please check if the file \"gameFile.dat\" exists in your directory.\n"); //Error message
+        return false;
+    }
+
+    //Positions the file cursor at the beginning of the file
+    rewind(gameFile);
+
+    //Reads the number of registered games
+    int numberOfGames;
+    fread(&numberOfGames, sizeof(int), 1, gameFile);
+
+    //Searches for user's saved game
+    tGame comparisonGame;
+    for (int i = 0; i < numberOfGames; i++) {
+        fread(&comparisonGame, sizeof(tGame), 1, gameFile);
+        if (user.id == comparisonGame.user.id) {
+            fseek(gameFile, (-1) * sizeof(tGame), SEEK_CUR);
+            break;
+        }
+    }
+
+    //Overwrites the saved game with an empty one
+    tGame emptyGame;
+    emptyGame.score = 0;
+    emptyGame.user = user;
+    emptyGameBoard(&emptyGame);
+    fwrite(&emptyGame, sizeof(tGame), 1, gameFile);
+
+    //Game has been successfully reseted
+    return true;
 }
