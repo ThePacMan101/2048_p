@@ -15,7 +15,7 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
         case key_E:
             break;
         case key_LEAVE:
-            *running = false;
+            *state = state_mainMenu;
             break;
         case key_DOWN:
         case key_LEFT:
@@ -252,8 +252,6 @@ void startGame(tGame *game) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++) game->board[i][j] = 0;
     game->score = 0;
-    game->user.id = -1;
-    sprintf(game->user.name, "no-user");
     spawnNewNumbers(game);
     spawnNewNumbers(game);
 }

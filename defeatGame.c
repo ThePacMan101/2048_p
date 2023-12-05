@@ -32,4 +32,3 @@ void renderDefeatGame(tGame game) {
     printf("\t\tPress [0] to continue.\n");
     return;
 }
-

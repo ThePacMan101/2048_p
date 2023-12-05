@@ -1,7 +1,9 @@
 #include "common.h"
-
+#include "preGame.h"
 #include "game.h"
 #include "menu.h"
+#include "defeatGame.h"
+#include "files.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
@@ -27,6 +29,8 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
         case state_victoryGame:
             // TODO
             break;
+        case state_preGame:
+            tickPreGame(command, running, game, state);
         default:
             break;
     }
@@ -56,6 +60,8 @@ void render(tState state, tGame game, int opc) {
         case state_victoryGame:
             // TODO
             break;
+        case state_preGame:
+            renderPreGame(state, game);
         default:
             break;
     }
