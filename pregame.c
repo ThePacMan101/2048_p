@@ -52,6 +52,7 @@ void renderLogin(tGame *game) {
         printf("\tUser not found, user created!\n");
         printf("\tPress any key to continue...\n");
         getch();
-        addNewPlayer(game->user);
+        writeNewPlayer(&(game->user));
+        //addNewPlayer(game,game->user.id);
     }
 }

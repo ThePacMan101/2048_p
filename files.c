@@ -31,17 +31,17 @@ void readBinaryFile() {
 
 
 /*
-The function convertPlayersToVector reads all players from the players file
+The function convertPlayersToVector reads all Players from the Players file
 and converts them into a vector of type tUser, then sets the variable numbers
-to the number of players read and returns the pointer to the vector
+to the number of Players read and returns the pointer to the vector
 */
 
 
 /*
 This addNewPlayer function adds a new player into the playerFile.
-It saves the players name, ID and highScore (initially 0) in game.
-The ID generated for said player is just the players position in
-the file. The number of players is kept at the top of said file.
+It saves the Players name, ID and highScore (initially 0) in game.
+The ID generated for said player is just the Players position in
+the file. The number of Players is kept at the top of said file.
 */
 
 /*
@@ -58,7 +58,7 @@ bubble sort algorithm.
 */
 
 /*
-This findPlayer function gets the alphabetically ordered vector with all players in playerFile.dat
+This findPlayer function gets the alphabetically ordered vector with all Players in playerFile.dat
 (using convertPlayersToVector and orderPlayersName), and implements a binary search to find the
 player that has the same name passed in the argument. The function returns the vector's index
 of said user, or -1 if no user with that name was found.
@@ -85,12 +85,12 @@ game. If the user doesn't any saved game, the function does
 nothing with the files and shows an error message.
 */
 
-// initializeFiles tries to open the players file and the games file and checks if
+// initializeFiles tries to open the Players file and the games file and checks if
 // they already exist. If not, it creates the files and sets the header numbers to 0.
 // If the operation is successfull, returns true. Otherwise, returns false.
 bool initializeFiles() {
     
-    //Opens players file
+    //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "r+b");
     if (playerFile == NULL) { //The file does not exist yet
@@ -124,17 +124,17 @@ bool initializeFiles() {
     return true;
 }
 
-// updateNumberOfPlayers updates the number at the top of the players
+// updateNumberOfPlayers updates the number at the top of the Players
 // file to a certain integer. If the operation was successfull, 
 // returns true. Otherwise, returns false.
 bool updateNumberOfPlayers(int *numberOfPlayers) {
 
-    //Opens players file
+    //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "r+b");
     if (playerFile == NULL) return false; 
 
-    //Updates the number of players at the top of the file
+    //Updates the number of Players at the top of the file
     rewind(playerFile);
     if (!fwrite(numberOfPlayers, sizeof(int), 1, playerFile)) {
         fclose(playerFile);
@@ -157,7 +157,7 @@ bool updateNumberOfGames(int *numberOfGames) {
     gameFile = fopen("assets/gameFile.dat", "r+b");
     if (gameFile == NULL) return false; 
 
-    //Updates the number of players at the top of the file
+    //Updates the number of Players at the top of the file
     rewind(gameFile);
     if (!fwrite(numberOfGames, sizeof(int), 1, gameFile)) {
         fclose(gameFile);
@@ -172,16 +172,16 @@ bool updateNumberOfGames(int *numberOfGames) {
 }
 
 // writeNewPlayer writes a new player at the end of
-// in the players file. If the operation was successfull,
+// in the Players file. If the operation was successfull,
 // returns true. Otherwise returns false.
 bool writeNewPlayer(tUser *player) {
 
-    //Opens players file
+    //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "a+b");
     if (playerFile == NULL) return false; 
 
-    //Reads the number of players
+    //Reads the number of Players
     int numberOfPlayers;
     rewind(playerFile);
     fread(&numberOfPlayers, sizeof(tUser), 1, playerFile);
@@ -196,7 +196,7 @@ bool writeNewPlayer(tUser *player) {
     //Closes file
     fclose(playerFile);
 
-    //Increases the number of players
+    //Increases the number of Players
     numberOfPlayers++;
     updateNumberOfPlayers(&numberOfPlayers);
 
@@ -237,11 +237,11 @@ bool writeNewGame(tGame *game) {
     return true;
 }
 
-// readNumberOfPlayers reads the number at the top of the players file
+// readNumberOfPlayers reads the number at the top of the Players file
 // and returns it. In case of an error, it returns -1.
-int readNumberOfPLayers() {
+int readNumberOfPlayers() {
 
-    //Opens players file
+    //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "rb");
     if (playerFile == NULL) return -1;
@@ -349,16 +349,16 @@ bool loadGame(tGame *game, int wantedID) {
     return false;
 }
 
-// convertPlayersToVector reads the players file and puts each one of the players
+// convertPlayersToVector reads the Players file and puts each one of the Players
 // registered there into a vector of size numberOfPlayers, then returns the pointer
 // to the created vector. Returns NULL if an error occurres.
 tUser *convertPlayersToVector() {
 
-    //Reads the number of players
+    //Reads the number of Players
     int numberOfPlayers = readNumberOfPlayers();
     if (numberOfPlayers == -1) return NULL;
 
-    //Opens players file
+    //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "a+b");
     if (playerFile == NULL) return NULL;
@@ -369,7 +369,7 @@ tUser *convertPlayersToVector() {
     //Allocates memory for the vector
     tUser *vector = (tUser *) malloc(sizeof(tUser) * numberOfPlayers);
 
-    //Puts each player in the players file into the vector
+    //Puts each player in the Players file into the vector
     tUser currentUser;
     for (int i = 0; i < numberOfPlayers; i++) {
         fread(&currentUser, sizeof(tUser), 1, playerFile);
@@ -384,13 +384,13 @@ tUser *convertPlayersToVector() {
 }
 
 // sortPlayersByName uses the bubble sort method to sort a
-// vector of players in alphabetical order using the function strcmp().
+// vector of Players in alphabetical order using the function strcmp().
 void sortPlayersByName() {
 
     //Reads the size of the vector
     int numberOfPlayers = readNumberOfPlayers();
 
-    //Allocates the vector and converts the players
+    //Allocates the vector and converts the Players
     tUser *vector = convertPlayersToVector();
 
     //Uses the bubble sort method on the vector
@@ -406,13 +406,13 @@ void sortPlayersByName() {
 }
 
 // sortPlayersByScore uses the bubble sort method to sort a
-// vector of players from the highest to the lowest hogh score.
+// vector of Players from the highest to the lowest hogh score.
 void rankPlayersByScore() {
 
     //Reads the size of the vector
     int numberOfPlayers = readNumberOfPlayers();
 
-    //Allocates the vector and converts the players
+    //Allocates the vector and converts the Players
     tUser *vector = convertPlayersToVector();
 
     //Uses the bubble sort method on the vector
