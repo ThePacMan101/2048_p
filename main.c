@@ -13,11 +13,13 @@ int main() {
     tState state = state_mainMenu;
 
     //Initializes files
+    
     if (initializeFiles() == -1) {
         printf("Error initializing files.\n");
         getch();
         return -1;
     }
+    
 
     if (DOPAMINEBOMB) {
         game.board[0][0] = 2;
