@@ -1,6 +1,5 @@
 #include "common.h"
-#include "files.h"
-#include "game.h"
+#include "files_alt.h"
 
 #define DOPAMINEBOMB 0
 void dopamineBomb(tGame *game,bool active);
@@ -14,21 +13,15 @@ int main() {
     game.user.highScore = 0;
     tState state = state_mainMenu;
 
-    //Initializes files
-    
-    if (initializeFiles() == -1) {
-        printf("Error initializing files.\n");
-        getch();
-        return -1;
-    }
-    
-
     dopamineBomb(&game,DOPAMINEBOMB);
+
+    int x=0;
 
     while (running) {
         render(state, game);                 // show current state graphics
         key = getCommand(state);             // get user command
         tick(key, &running, &game, &state);  // do stuff, update variables
+        UserListToArray(&x);
     }
 
     return 0;

@@ -41,7 +41,6 @@ typedef struct {
     int id;
     char name[20];
     int highScore;
-    bool hasSave;
     //[...] TODO
 } tUser;
 

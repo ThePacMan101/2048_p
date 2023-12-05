@@ -4,6 +4,7 @@
         "common.h": "c",
         "random": "c",
         "game.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "files_alt.h": "c"
     }
 }

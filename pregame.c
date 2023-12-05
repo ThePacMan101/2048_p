@@ -1,9 +1,7 @@
-#include "preGame.h"
-
 #include "common.h"
-#include "files.h"
 #include "game.h"
-
+#include "pregame.h"
+#include "files_alt.h"
 void renderPreGame(tState state, tGame game) {
     renderLogo();
     printf("\n");
@@ -16,12 +14,15 @@ void renderPreGame(tState state, tGame game) {
 void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
         case '1':
-            game->user.id = -1;
+            strcpy(game->user.name,"guest-user");
+            game->user.id=-1;
             *state = state_playingGame;
             startGame(game);
             break;
         case '2':
-            if(login(game,state)) startGame(game);
+            login(game);
+            *state = state_playingGame;
+            startGame(game);
             break;
         case '0':
             *state = state_mainMenu;
@@ -31,37 +32,12 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
     }
 }
 
-bool login(tGame *game,tState*state) {
+void login(tGame *game) {
+    tUser user;
     renderLogo();
     printf("\n");
     printf("\tEnter your username: ");
-    scanf("%s", game->user.name);
-
-    tUser *Players=convertPlayersToVector();
-    game->user.id=searchPlayerByName(Players,game->user.name);
-    if ((Players!=NULL)&&(game->user.id!=-1)) {
-        if(loadGame(game , game->user.id)) return true;
-        else{
-            printf("\tError loading game!\n");
-            printf("\tThis user has no active games\n");
-            printf("\tPress any key to continue...\n");
-            getch();
-            *state=state_mainMenu;
-            return false;
-        }
-        if (game == NULL) {
-            printf("\tError loading game!\n");
-            printf("\tPress any key to continue...\n");
-            getch();
-            *state=state_mainMenu;
-            return false;
-        }
-    } else {
-        writeNewPlayer(&(game->user));
-        *state=state_playingGame;
-        printf("\tUser not found, user created!\n");
-        printf("\tPress any key to continue...\n");
-        getch();
-        return true;
-    }
+    scanf("%s", user.name);
+    loadUser(&user);
+    game->user=user;
 }

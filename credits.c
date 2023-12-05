@@ -1,15 +1,7 @@
 #include "credits.h"
 
 void tickCredits(tCommand command, bool *running, tGame *game, tState *state) {
-    switch (command) {
-        case key_LEAVE:
-            *state = state_mainMenu;
-            break;
-
-        default:
-            tickCredits(command, running, game, state);
-            break;
-    }
+    if(command==key_LEAVE) *state=state_mainMenu;
 }
 
 void renderCredits() {

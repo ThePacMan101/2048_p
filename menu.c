@@ -7,16 +7,18 @@ void tickMainMenu(tCommand command, bool *running, tGame *game, tState *state) {
             *state = state_preGame;
             break;
         case '2':
-            *state = state_optionsMenu;
+            //*state = state_optionsMenu;
             break;
         case '3':
-            *state = state_rankingMenu;
+            //*state = state_rankingMenu;
             break;
         case '4':
             *state = state_creditsMenu;
             break;
         case '0':
             *running = false;
+            break;
+        default:
             break;
     }
 }

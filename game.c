@@ -1,39 +1,30 @@
 #include "game.h"
-
 #include "common.h"
-#include "files.h"
+#include "files_alt.h"
 #include "menu.h"
 #include "queue.h"
 
-void printByColor(int number);
-void move(tCommand command, tGame *game);
-void spawnNewNumbers(tGame *game);
-void tickplayingGame(tCommand command, bool *running, tGame *game, tState *state);
-void renderPlayingGame(tState state, tGame game);
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
         case key_LEAVE:
+            if(game->user.id!=-1) saveUser(game->user);
             *state = state_mainMenu;
             break;
         case key_DOWN:
         case key_LEFT:
         case key_RIGHT:
         case key_UP:
-            checkForGameOver(*game, state);
+            checkForGameOver(game, state);
             tGame gameBeforeMove = *game;
             move(command, game);
+            if(game->score > game->user.highScore) game->user.highScore=game->score;
             if (memcmp(&gameBeforeMove, game, sizeof(tGame)) == 0) {
                 break;
             }
             spawnNewNumbers(game);
             break;
-        case '1':
-            saveGame(game);
-            *state = state_mainMenu;
-            break;
         default:
-            tickPlayingGame(command, running, game, state);
             break;
     }
 }
@@ -85,12 +76,7 @@ void renderPlayingGame(tState state, tGame game) {
     printf("[D] RIGHT\n");
 
     printf("\n");
-    if (game.user.id != -1) {
-        printf("\t[1] Save and quit.     ");
-        printf("[0] Quit whitout saving.\n");
-    } else {
-        printf("\t[0] Quit.\n");
-    }
+    printf("\t[0] Quit.\n");
 }
 
 void printBoard(tGame game) {
@@ -260,16 +246,17 @@ void startGame(tGame *game) {
     spawnNewNumbers(game);
 }
 
-void checkForGameOver(tGame game, tState *state) {
-    tGame auxiliar = game;
+void checkForGameOver(tGame *game, tState *state) {
+    tGame auxiliar = *game;
     move(key_UP, &auxiliar);
-    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
         move(key_LEFT, &auxiliar);
-    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
         move(key_DOWN, &auxiliar);
-    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
         move(key_RIGHT, &auxiliar);
-    if (memcmp(&auxiliar, &game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
         *state = state_defeatGame;
+    saveUser(game->user);
     return;
 }

@@ -3,8 +3,12 @@
 
 #include "common.h"
 
-bool saveUser(tUser user);
+tUser* UserListToArray(int*tam);
 
-bool loadUser(int id);
+void saveUserList(tUser user);
+
+void saveUser(tUser user);
+
+void loadUser(tUser *user);
 
 #endif

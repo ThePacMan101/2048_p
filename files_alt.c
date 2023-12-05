@@ -1,16 +1,58 @@
-#include "files.h"
-#include <stdio.h>
 #include "common.h"
+#include "files_alt.h"
+
+void saveUserList(tUser user){
+    FILE *f;
+    f=fopen("assets/players.dat","r+b");
+    if(!f) fopen("assets/players.dat","w+b");
+    fseek(f,0,SEEK_END);
+    fwrite(user.name,20,1,f);
+    fclose(f);
+}
+
+tUser* UserListToArray(int*tam){
+    /*FILE *listFile=fopen("assets/players.dat","r+b");
+    FILE *aux;
+    char filename[30];
+    char name[20];
+    fseek(listFile,0,SEEK_END);
+    *tam=ftell(listFile)/20;
+    tUser *array=(tUser*)malloc((*tam)*sizeof(tUser));
+    rewind(listFile);
+    printf("%d\n",*tam);
+    for(int i = 0 ; i < *tam ; i ++){
+        fread(name,20,1,listFile);
+        strcpy(filename,"assets/");
+        strcat(filename,name);
+        strcat(filename,".dat");
+
+        aux=fopen(filename,"r+b");
+        fread(array+i,sizeof(tUser),1,aux);
+        fclose(aux);
+
+        //printf("{\n");
+        //printf("\t%s\n\t%d",array[i].name,array[i].highScore);
+        //printf("\n}");
+
+    }
+
+    getch();
+
+    fclose(listFile);
+    return array;*/
+    return (tUser*)NULL;
+}
 
 void saveUser(tUser user){
     FILE *f;
-    char filename="assets/";
+    char filename[30]="assets/";
     strcat(filename,user.name);
+    strcat(filename,".dat");
     f = fopen(filename,"r+b");
     if(!f) f = fopen(filename,"w+b");
     if(!f){
         printf("\tCould not save user\n");
-        printf("\tPress any key to continue...\n");
+        printf("Press any key to continue...\n");
         getch();
         return;
     }
@@ -18,24 +60,28 @@ void saveUser(tUser user){
     fclose(f);
 }
 
-tUser loadUser(char*name){
+void loadUser(tUser *user){
+
     FILE *f;
-    tUser user;
-    char filename="assets/";
-    strcat(filename,name);
+    user->highScore=0;
+    user->id=0;
+    char filename[30]="assets/";
+    
+    strcat(filename,user->name);
+    strcat(filename,".dat");
     f=fopen(filename,"r+b");
     if(!f){
-        printf("\tThis user does not exist\n");
-        printf("\tPress any key to continue...\n");
-        getch();
-        user.id=-1;
-        strcpy(user.name,"invalid-user");
-        return user;
+        fclose(f);
+        saveUserList(*user);
+        saveUser(*user);
+        return;
     }
-    if(fread(&user,sizeof(tUser),1,f)) return user;
-    printf("\tCould not load user\n");
-    getch();
-    user.id=-1;
-    strcpy(user.name,"invalid-user");
-    return user;
+    if(!fread(user,sizeof(tUser),1,f)){
+        fclose(f);
+        saveUserList(*user);
+        saveUser(*user);
+        return;
+    }
+    fclose(f);
+    return;
 }
