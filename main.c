@@ -15,13 +15,12 @@ int main() {
 
     dopamineBomb(&game,DOPAMINEBOMB);
 
-    int x=0;
+    initFiles();
 
     while (running) {
         render(state, game);                 // show current state graphics
         key = getCommand(state);             // get user command
         tick(key, &running, &game, &state);  // do stuff, update variables
-        UserListToArray(&x);
     }
 
     return 0;

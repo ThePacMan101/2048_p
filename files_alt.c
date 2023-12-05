@@ -1,6 +1,12 @@
 #include "common.h"
 #include "files_alt.h"
 
+void initFiles(){
+    FILE* f = fopen("assets/players.dat","r+b");
+    if(!f) f = fopen("assets/players.dat","w+b");
+    fclose(f);
+}
+
 void saveUserList(tUser user){
     FILE *f;
     f=fopen("assets/players.dat","r+b");
@@ -11,7 +17,7 @@ void saveUserList(tUser user){
 }
 
 tUser* UserListToArray(int*tam){
-    /*FILE *listFile=fopen("assets/players.dat","r+b");
+    FILE *listFile=fopen("assets/players.dat","r+b");
     FILE *aux;
     char filename[30];
     char name[20];
@@ -19,7 +25,6 @@ tUser* UserListToArray(int*tam){
     *tam=ftell(listFile)/20;
     tUser *array=(tUser*)malloc((*tam)*sizeof(tUser));
     rewind(listFile);
-    printf("%d\n",*tam);
     for(int i = 0 ; i < *tam ; i ++){
         fread(name,20,1,listFile);
         strcpy(filename,"assets/");
@@ -29,17 +34,9 @@ tUser* UserListToArray(int*tam){
         aux=fopen(filename,"r+b");
         fread(array+i,sizeof(tUser),1,aux);
         fclose(aux);
-
-        //printf("{\n");
-        //printf("\t%s\n\t%d",array[i].name,array[i].highScore);
-        //printf("\n}");
-
     }
-
-    getch();
-
     fclose(listFile);
-    return array;*/
+    return array;
     return (tUser*)NULL;
 }
 

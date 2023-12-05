@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+void initFiles();
+
 tUser* UserListToArray(int*tam);
 
 void saveUserList(tUser user);
