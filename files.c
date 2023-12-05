@@ -92,7 +92,7 @@ bool initializeFiles() {
     
     //Opens players file
     FILE *playerFile;
-    playerFile == fopen("assets/playerFile.dat", "r+b");
+    playerFile = fopen("assets/playerFile.dat", "r+b");
     if (playerFile == NULL) { //The file does not exist yet
         printf("It seems like \"assets/playerFile.dat\" is missing.\nCreatting new file...\n");
         playerFile = fopen("assets/playerFile.dat", "w+b");
@@ -197,7 +197,8 @@ bool writeNewPlayer(tUser *player) {
     fclose(playerFile);
 
     //Increases the number of players
-    updateNumberOfPlayers(numberOfPlayers + 1);
+    numberOfPlayers++;
+    updateNumberOfPlayers(&numberOfPlayers);
 
     //Success
     return true;
@@ -229,7 +230,8 @@ bool writeNewGame(tGame *game) {
     fclose(gameFile);
 
     //Increases the number of games
-    updateNumberOfGames(numberOfGames + 1);
+    numberOfGames++;
+    updateNumberOfGames(&numberOfGames);
 
     //Success
     return true;
@@ -308,7 +310,8 @@ bool saveGame(tGame *game) {
 
     //Writes new game and updates number of games
     writeNewGame(game);
-    updateNumberOfGames(numberOfGames + 1);
+    numberOfGames++;
+    updateNumberOfGames(&numberOfGames);
 }
 
 // loadGame searches for any saved game in the games file with the given
@@ -349,7 +352,7 @@ bool loadGame(tGame *game, int wantedID) {
 // convertPlayersToVector reads the players file and puts each one of the players
 // registered there into a vector of size numberOfPlayers, then returns the pointer
 // to the created vector. Returns NULL if an error occurres.
-tUser *convertPLayersToVector() {
+tUser *convertPlayersToVector() {
 
     //Reads the number of players
     int numberOfPlayers = readNumberOfPlayers();
@@ -388,7 +391,7 @@ void sortPlayersByName() {
     int numberOfPlayers = readNumberOfPlayers();
 
     //Allocates the vector and converts the players
-    tUser *vector = convertPLayersToVector();
+    tUser *vector = convertPlayersToVector();
 
     //Uses the bubble sort method on the vector
     for (int end = numberOfPlayers - 1; end > 0; end--) {
@@ -410,7 +413,7 @@ void rankPlayersByScore() {
     int numberOfPlayers = readNumberOfPlayers();
 
     //Allocates the vector and converts the players
-    tUser *vector = convertPLayersToVector();
+    tUser *vector = convertPlayersToVector();
 
     //Uses the bubble sort method on the vector
     for (int end = numberOfPlayers - 1; end > 0; end--) {

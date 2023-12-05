@@ -24,13 +24,13 @@ bool updateNumberOfGames(int *numberOfGames);
 bool writeNewPlayer(tUser *player);
 bool writeNewGame(tGame *game);
 
-int readNumberOfPLayers();
+int readNumberOfPlayers();
 int readNumberOfGames();
 
 bool saveGame(tGame *game);
 bool loadGame(tGame *game, int userID);
 
-tUser *convertPLayersToVector();
+tUser *convertPlayersToVector();
 
 void sortPlayersByName();
 void rankPlayersByScore();

@@ -39,9 +39,9 @@ void renderLogin(tGame *game) {
     printf("\tEnter your username: ");
     scanf("%s", game->user.name);
 
-    tUser Players;
-    if (findPlayer(&Players, 0, game->user.name) == 1) {
-        game = loadGame(game->user);
+    tUser *Players=convertPlayersToVector();
+    if (searchPlayerByName(Players,game->user.name)!=-1) {
+        loadGame(game , game->user.id);
         if (game == NULL) {
             printf("\tError loading game!\n");
             printf("\tPress any key to continue...\n");

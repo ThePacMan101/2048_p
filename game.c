@@ -29,7 +29,7 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
             spawnNewNumbers(game);
             break;
         case '1':
-            saveGame(*game);
+            saveGame(game);
             *state = state_mainMenu;
             break;
         default:
