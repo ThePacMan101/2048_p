@@ -1,5 +1,5 @@
 #include "common.h"
-#include "files_alt.h"
+#include "files.h"
 
 #define DOPAMINEBOMB 0
 void dopamineBomb(tGame *game,bool active);

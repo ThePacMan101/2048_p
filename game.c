@@ -1,6 +1,6 @@
 #include "game.h"
 #include "common.h"
-#include "files_alt.h"
+#include "files.h"
 #include "menu.h"
 #include "queue.h"
 

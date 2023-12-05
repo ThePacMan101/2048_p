@@ -1,5 +1,5 @@
 #include "common.h"
-#include "files_alt.h"
+#include "files.h"
 
 void initFiles(){
     FILE* f = fopen("assets/players.dat","r+b");

@@ -1,6 +1,6 @@
 #include "defeatGame.h"
 #include "game.h"
-#include "files_alt.h"
+#include "files.h"
 
 void tickDefeatGame(tCommand command, bool *running, tGame *game, tState *state) {
     

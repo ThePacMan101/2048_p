@@ -3,7 +3,7 @@
 #include "game.h"
 #include "menu.h"
 #include "defeatGame.h"
-#include "files_alt.h"
+#include "files.h"
 #include "credits.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {

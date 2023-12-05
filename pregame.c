@@ -1,7 +1,8 @@
 #include "common.h"
 #include "game.h"
 #include "pregame.h"
-#include "files_alt.h"
+#include "files.h"
+
 void renderPreGame(tState state, tGame game) {
     renderLogo();
     printf("\n");

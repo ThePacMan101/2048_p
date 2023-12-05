@@ -1,5 +1,5 @@
-#ifndef FILESALT_H
-#define FILESALT_H
+#ifndef FILES_H
+#define FILES_H
 
 #include "common.h"
 
