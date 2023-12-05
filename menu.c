@@ -12,6 +12,9 @@ void tickMainMenu(tCommand command, bool *running, tGame *game, tState *state) {
         case '3':
             *state = state_rankingMenu;
             break;
+        case '4':
+            *state = state_creditsMenu;
+            break;
         case '0':
             *running = false;
             break;
@@ -36,7 +39,7 @@ void renderMainMenu(tState state) {
 
 //            ---------------------------------------------------------------------------------
 void renderOptions() {
-    printf("\t                                 Welcome to 2048!                          \n");
+    printf("\t                                 \033[1mWelcome to 2048!\033[0m                          \n");
     printf("\tChoose an option:\n");
     printf("\t\t[1] Play\n");
     printf("\t\t[2] Options\n");

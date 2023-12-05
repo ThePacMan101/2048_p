@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "defeatGame.h"
 #include "files.h"
+#include "credits.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
@@ -31,6 +32,10 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
             break;
         case state_preGame:
             tickPreGame(command, running, game, state);
+            break;
+        case state_creditsMenu:
+            tickCredits(command, running, game, state);
+            break;
         default:
             break;
     }
@@ -62,6 +67,10 @@ void render(tState state, tGame game) {
             break;
         case state_preGame:
             renderPreGame(state, game);
+            break;
+        case state_creditsMenu:
+            renderCredits();
+            break;
         default:
             break;
     }

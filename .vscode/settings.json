@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "common.h": "c",
         "random": "c",
-        "game.h": "c"
+        "game.h": "c",
+        "stdlib.h": "c"
     }
 }

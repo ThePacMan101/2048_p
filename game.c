@@ -1,6 +1,7 @@
 #include "game.h"
-#include "files.h"
+
 #include "common.h"
+#include "files.h"
 #include "menu.h"
 #include "queue.h"
 
@@ -71,8 +72,7 @@ void renderPlayingGame(tState state, tGame game) {
             printf("\tHighscore:   %d!", game.score);
         }
     } else {
-        printf("\tScore:       %d\n", game.score);
-        printf("\tHighscore:   %d", game.score);
+        printf("\tScore:       %d\n\n", game.score);
     }
 
     printf("\n\n");
@@ -101,6 +101,7 @@ void printBoard(tGame game) {
         for (int j = 0; j < 4; j++) {
             if (game.board[i][j]) {
                 printByColor(game.board[i][j]);
+                printf(" | ");
             } else {
                 printf("     | ");
             };
@@ -248,7 +249,6 @@ void printByColor(int number) {
     int red = 255 - (exponent * 255) / 11;  // Calculate red component
     int blue = (exponent * 255) / 11;       // Calculate blue component
     printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, blue, 1 << exponent);
-    printf(" | ");
     return;
 }
 
