@@ -89,7 +89,6 @@ nothing with the files and shows an error message.
 // they already exist. If not, it creates the files and sets the header numbers to 0.
 // If the operation is successfull, returns true. Otherwise, returns false.
 bool initializeFiles() {
-    
     //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "r+b");
@@ -103,9 +102,11 @@ bool initializeFiles() {
         fwrite(&numberOfPlayers, sizeof(int), 1, playerFile);
     }
 
+    
+
     //Opens game saves file
     FILE *gameFile;
-    gameFile == fopen("assets/gameFile.dat", "r+b");
+    gameFile = fopen("assets/gameFile.dat", "r+b");
     if (gameFile == NULL) { //The file does not exist yet
         printf("It seems like \"assets/gameFile.dat\" is missing.\nCreatting new file...\n");
         gameFile = fopen("assets/gameFile.dat", "w+b");
@@ -115,7 +116,7 @@ bool initializeFiles() {
         rewind(gameFile);
         fwrite(&numberOfGames, sizeof(int), 1, gameFile);
     }
-
+    
     //Closes files
     fclose(playerFile);
     fclose(gameFile);
