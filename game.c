@@ -50,7 +50,6 @@ void spawnNewNumbers(tGame *game) {
 }
 
 void renderPlayingGame(tState state, tGame game) {
-    system("cls");
     renderLogo();
     printf("\n");
 

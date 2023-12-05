@@ -15,7 +15,6 @@ void tickDefeatGame(tCommand command, bool *running, tGame *game, tState *state)
 }
 
 void renderDefeatGame(tGame game) {
-    system("cls");
     renderLogo();
 
     printf("\n\tGame over!\n\n");
