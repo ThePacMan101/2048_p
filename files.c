@@ -41,6 +41,7 @@ tUser* UserListToArray(int*tam){
 }
 
 void saveUser(tUser user){
+    if(user.id==-1) return;
     FILE *f;
     char filename[30]="assets/";
     strcat(filename,user.name);

@@ -23,12 +23,14 @@ void renderDefeatGame(tGame game) {
     printBoard(game);
     printf("\n\n");
 
-    printf("\t\tPlayer Name: %s\n", game.user.name);
+    if(game.user.id!=-1) printf("\t\tPlayer Name: %s\n", game.user.name);
     printf("\t\tScore:       %d\n", game.score);
-    if (game.user.highScore > game.score) {
-        printf("\t\tHighscore:   %d\n\n", game.user.highScore);
-    } else {
-        printf("\t\tHighscore:   %d!\n\n", game.score);
+    if(game.user.id!=-1){
+        if (game.user.highScore > game.score) {
+            printf("\t\tHighscore:   %d\n\n", game.user.highScore);
+        } else {
+            printf("\t\tHighscore:   %d!\n\n", game.score);
+        }
     }
     printf("\t\tPress [0] to continue.\n");
     return;
