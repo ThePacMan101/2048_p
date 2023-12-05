@@ -268,6 +268,9 @@ int readNumberOfGames() {
     int numberOfGames;
     rewind(gameFile);
     fread(&numberOfGames, sizeof(int), 1, gameFile);
+    printf("%d",numberOfGames);
+    getchar();
+    getchar();
 
     //Returns the number
     return numberOfGames;
