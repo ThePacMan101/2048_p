@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+//#include <windows.h>
+
 
 #define bool int
 #define true 1

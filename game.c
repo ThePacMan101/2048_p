@@ -76,17 +76,18 @@ void renderPlayingGame(tState state, tGame game) {
     printBoard(game);
     printf("\n\n");
 
-    printf("\tPress [W] to move up.\n");
-    printf("\tPress [A] to move left.\n");
-    printf("\tPress [S] to move down.\n");
-    printf("\tPress [D] to move right.\n");
+    printf("\t[W] UP                 ");
+    printf("[A] LEFT                 ");
+    printf("[S] DOWN                 ");
+    printf("[D] RIGHT\n");
 
-    printf("\n\n");
+    printf("\n");
     if (game.user.id != -1) {
-        printf("\tPress [E] to save and quit.\n");
+        printf("\t[1] Save and quit.     ");
+        printf("[0] Quit whitout saving.\n");
+    } else {
+        printf("\t[0] Quit.\n");
     }
-
-    printf("\tPress [0] to quit.\n");
 }
 
 void printBoard(tGame game) {

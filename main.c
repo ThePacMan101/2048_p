@@ -2,9 +2,11 @@
 #include "files.h"
 #include "game.h"
 
+
 #define DOPAMINEBOMB 0
 int main() {
     srand(time(0));
+    //SetConsoleTitle("2048");
     bool running = true;
     tCommand key;
     tGame game;
