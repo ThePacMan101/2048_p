@@ -1,5 +1,5 @@
 #include "preGame.h"
-
+#include "common.h"
 #include "game.h"
 
 void renderPreGame(tState state, tGame game) {
@@ -29,4 +29,11 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
         default:
             break;
     }
+}
+/**/
+void renderLogin() {
+    renderLogo();
+    printf("\n");
+    printf("\tEnter your username: ");
+    scanf("%s", game.user.username);
 }

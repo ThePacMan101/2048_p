@@ -61,7 +61,7 @@ void tick(tCommand command, bool *running, tGame *game, tState *state);
 The render function calls other functions to show the screen based on the
 current state and the game variable
 */
-void render(tState state, tGame game, int opc);
+void render(tState state, tGame game);
 
 tCommand getCommand();
 

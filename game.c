@@ -12,8 +12,6 @@ void renderPlayingGame(tState state, tGame game);
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
-        case key_E:
-            break;
         case key_LEAVE:
             *state = state_mainMenu;
             break;
@@ -30,6 +28,7 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
             spawnNewNumbers(game);
             break;
         default:
+        tickPlayingGame(command, running, game, state);
             break;
     }
 }

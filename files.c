@@ -411,7 +411,7 @@ bool resetGame(tUser user) {
     for (int i = 0; i < numberOfGames; i++) {
         fread(&comparisonGame, sizeof(tGame), 1, gameFile);
         if (user.id == comparisonGame.user.id) {
-            fseek(gameFile, (-1) * sizeof(tGame), SEEK_CUR);
+            fseek(gameFile, -(long)sizeof(tGame), SEEK_CUR);
             break;
         }
     }
