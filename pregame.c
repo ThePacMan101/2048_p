@@ -1,5 +1,7 @@
 #include "preGame.h"
+
 #include "common.h"
+#include "files.h"
 #include "game.h"
 
 void renderPreGame(tState state, tGame game) {
@@ -19,7 +21,7 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
             *state = state_playingGame;
             break;
         case '2':
-            game->user.id = 1;  // provisory, to be changed
+            renderLogin(game);
             startGame(game);
             *state = state_playingGame;
             break;
@@ -31,9 +33,25 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
     }
 }
 /**/
-void renderLogin() {
+void renderLogin(tGame *game) {
     renderLogo();
     printf("\n");
     printf("\tEnter your username: ");
-    scanf("%s", game.user.username);
+    scanf("%s", game->user.name);
+
+    tUser Players;
+    if (findPlayer(&Players, 0, game->user.name) == 1) {
+        game = loadGame(game->user);
+        if (game == NULL) {
+            printf("\tError loading game!\n");
+            printf("\tPress any key to continue...\n");
+            getch();
+            return;
+        }
+    } else {
+        printf("\tUser not found, user created!\n");
+        printf("\tPress any key to continue...\n");
+        getch();
+        addNewPlayer(game->user);
+    }
 }

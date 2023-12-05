@@ -1,7 +1,9 @@
 #include "defeatGame.h"
 #include "game.h"
+#include "files.h"
 
 void tickDefeatGame(tCommand command, bool *running, tGame *game, tState *state) {
+    
     switch (command) {
         case key_LEAVE:
             *state = state_mainMenu;

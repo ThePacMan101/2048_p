@@ -24,7 +24,7 @@ int initializeFiles() {
 
             fclose(playerFile);
 
-            if ((playerFile = fopen("playerFile.dat", "wb+")) == NULL) {  // Detects if file was opened corretcly
+            if ((playerFile = fopen("assets/playerFile.dat", "wb+")) == NULL) {  // Detects if file was opened corretcly
                 printf("\n\nError creating playerFile.dat. Press any key to continue\n");
                 return -1;
             } else {  // Sets file up
@@ -64,7 +64,7 @@ int initializeFiles() {
 
             fclose(playerFile);
 
-            if ((playerFile = fopen("gameFile.dat", "wb+")) == NULL) {  // Detects if file was opened corretcly
+            if ((playerFile = fopen("assets/gameFile.dat", "wb+")) == NULL) {  // Detects if file was opened corretcly
                 printf("\n\nError creating gameFile.dat. Press any key to continue\n");
                 return -1;
             } else {  // Sets file up
@@ -93,7 +93,7 @@ to the number of players read and returns the pointer to the vector
 tUser *convertPlayersToVector(int *number) {
     // Opens players file
     FILE *playerFile;
-    if ((playerFile = (fopen("playerFile.dat", "rb"))) == NULL) {
+    if ((playerFile = (fopen("assets/playerFile.dat", "rb"))) == NULL) {
         printf("An error has occurred. Please restart the game.\n");  // Error message
         return NULL;
     }
@@ -133,8 +133,8 @@ void readBinaryFile() {
     tUser user;
     int count;
 
-    f = fopen("playerFile.dat", "rb+");
-    fa = fopen("playerFile.txt", "w+");
+    f = fopen("assets/playerFile.dat", "rb+");
+    fa = fopen("assets/playerFile.txt", "w+");
 
     fread(&count, sizeof(int), 1, f);
     fprintf(fa, "%d\n", count);
@@ -157,7 +157,7 @@ the file. The number of players is kept at the top of said file.
 int addNewPlayer(tUser user) {
     // Creating pointer to binary file playerFile.dat and checking for errors
     FILE *playerFile;
-    if ((playerFile = fopen("playerFile.dat", "rb+")) == NULL) {
+    if ((playerFile = fopen("assets/playerFile.dat", "rb+")) == NULL) {
         printf("Error adding new player! Press any key to continue\n");
         getchar();
         return -1;
@@ -281,19 +281,20 @@ bool saveGame(tGame game) {
 
     // Opens the players file
     FILE *playerFile;
-    if ((playerFile = fopen("playerFile.dat", "rb")) == NULL) {
+    if ((playerFile = fopen("assets/playerFile.dat", "rb")) == NULL) {
         printf("Error opening \"playerFile.dat\". Please check if the file already exists.\n");
         return false;  // Game has NOT been successfully saved
     }
+    fclose(playerFile); // Close the file after checking
 
     // Opens the games file
     FILE *gameFile;
-    if ((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+    if ((gameFile = fopen("assets/gameFile.dat", "r+b")) == NULL) {
         printf("Error opening \"gameFile.dat\". Please check if the file already exists.\n");
         return false;  // Game has NOT been successfully saved
     }
 
-    // Positions the file pointer at the and of the file
+    // Positions the file pointer at the end of the file
     fseek(gameFile, 0, SEEK_END);
 
     // Checks if the user already has a save
@@ -303,14 +304,15 @@ bool saveGame(tGame game) {
         printf("\nPress [2] to cancel operation;");
         int key;
         printf("\n\n> ");
-        scanf("%d", &key);
+        scanf_s("%d", &key); // Use scanf_s instead of scanf for security
         while (key != 1) {
             if (key == 2) {
+                fclose(gameFile); // Close the file before returning
                 return false;  // Game has NOT been successfully saved
             }
             printf("Invalid key. Please press [1] or [2].\n");
             printf("\n\n> ");
-            scanf("%d", &key);
+            scanf_s("%d", &key); // Use scanf_s instead of scanf for security
         }
 
         // Positions the file pointer at the beginning of the file and reads the number of games
@@ -332,6 +334,7 @@ bool saveGame(tGame game) {
     // Writes the new game to the games file and updates hasSave to true
     fwrite(&current, sizeof(tGame), 1, gameFile);
     game.user.hasSave = true;
+    fclose(gameFile); // Close the file after writing
     return true;  // Game has been successfully saved
 }
 
@@ -345,13 +348,15 @@ tGame *loadGame(tUser user) {
     //Detects if the user has a saved game.
     if(user.hasSave == false) {
         printf("This user doesn't have a saved game! Please select a user with saved game.\n");
+        getch();
         return NULL;
     } 
     else {
         //Opens the game file
         FILE *gameFile;
-        if((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+        if((gameFile = fopen("assets/gameFile.dat", "r+b")) == NULL) {
             printf("Error opening \"gameFile.dat\". Please check if the file already exists.\n");
+            getch();
             return NULL; //Game has NOT been successfully saved
         }
 
@@ -365,12 +370,15 @@ tGame *loadGame(tUser user) {
         for (int i = 0; i < numberOfGames; i++) {
             fread(&comparisonGame, sizeof(tGame), 1, gameFile);
             if (comparisonGame->user.id == user.id) {
+                printf("Game loaded successfully!");
+                getch();
                 return comparisonGame;
             }
         }
         
         //Couldn't find any game with said user ID
         printf("Error loading game. Program was not able to find user in \"gameFile.dat\".");
+        getch();
         return NULL;
     }
 }
@@ -394,7 +402,7 @@ bool resetGame(tUser user) {
 
     //Opens games file
     FILE *gameFile;
-    if ((gameFile = fopen("gameFile.dat", "r+b")) == NULL) {
+    if ((gameFile = fopen("assets/gameFile.dat", "r+b")) == NULL) {
         printf("An error has occurred. Please check if the file \"gameFile.dat\" exists in your directory.\n"); //Error message
         return false;
     }

@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "files.h"
 #include "common.h"
 #include "menu.h"
 #include "queue.h"
@@ -27,8 +27,12 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
             }
             spawnNewNumbers(game);
             break;
+        case '1':
+            saveGame(*game);
+            *state = state_mainMenu;
+            break;
         default:
-        tickPlayingGame(command, running, game, state);
+            tickPlayingGame(command, running, game, state);
             break;
     }
 }

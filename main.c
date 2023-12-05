@@ -9,13 +9,16 @@ int main() {
     bool running = true;
     tCommand key;
     tGame game;
+    game.user.highScore = 0;
     tState state = state_mainMenu;
 
-    /* Initializes files
+    //Initializes files
     if (initializeFiles() == -1) {
+        printf("Error initializing files.\n");
+        getch();
         return -1;
     }
-*/
+
     if (DOPAMINEBOMB) {
         game.board[0][0] = 2;
         game.board[0][1] = 2;
