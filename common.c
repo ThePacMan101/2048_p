@@ -76,8 +76,9 @@ void render(tState state, tGame game) {
     }
 }
 
-tCommand getCommand() {
+tCommand getCommand(tState state) {
     tCommand command = getch();
+    if((state==state_mainMenu)&&(command<'0'||command>'4')) return getCommand(state);
     return command;
 }
 

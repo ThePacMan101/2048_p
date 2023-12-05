@@ -64,7 +64,7 @@ current state and the game variable
 */
 void render(tState state, tGame game);
 
-tCommand getCommand();
+tCommand getCommand(tState state);
 
 /*
 The renderLogo function shows the game logo art on the screen

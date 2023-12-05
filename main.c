@@ -26,8 +26,8 @@ int main() {
     dopamineBomb(&game,DOPAMINEBOMB);
 
     while (running) {
-        render(state, game);
-        key = getCommand();                  // show current state graphics                 // get user command
+        render(state, game);                 // show current state graphics
+        key = getCommand(state);             // get user command
         tick(key, &running, &game, &state);  // do stuff, update variables
     }
 

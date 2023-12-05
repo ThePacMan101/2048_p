@@ -17,13 +17,11 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
         case '1':
             game->user.id = -1;
-            startGame(game);
             *state = state_playingGame;
+            startGame(game);
             break;
         case '2':
-            renderLogin(game);
-            startGame(game);
-            *state = state_playingGame;
+            if(login(game,state)) startGame(game);
             break;
         case '0':
             *state = state_mainMenu;
@@ -32,27 +30,38 @@ void tickPreGame(tCommand command, bool *running, tGame *game, tState *state) {
             break;
     }
 }
-/**/
-void renderLogin(tGame *game) {
+
+bool login(tGame *game,tState*state) {
     renderLogo();
     printf("\n");
     printf("\tEnter your username: ");
     scanf("%s", game->user.name);
 
     tUser *Players=convertPlayersToVector();
-    if (searchPlayerByName(Players,game->user.name)!=-1) {
-        loadGame(game , game->user.id);
+    game->user.id=searchPlayerByName(Players,game->user.name);
+    if ((Players!=NULL)&&(game->user.id!=-1)) {
+        if(loadGame(game , game->user.id)) return true;
+        else{
+            printf("\tError loading game!\n");
+            printf("\tThis user has no active games\n");
+            printf("\tPress any key to continue...\n");
+            getch();
+            *state=state_mainMenu;
+            return false;
+        }
         if (game == NULL) {
             printf("\tError loading game!\n");
             printf("\tPress any key to continue...\n");
             getch();
-            return;
+            *state=state_mainMenu;
+            return false;
         }
     } else {
+        writeNewPlayer(&(game->user));
+        *state=state_playingGame;
         printf("\tUser not found, user created!\n");
         printf("\tPress any key to continue...\n");
         getch();
-        writeNewPlayer(&(game->user));
-        //addNewPlayer(game,game->user.id);
+        return true;
     }
 }

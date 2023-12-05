@@ -100,8 +100,9 @@ bool initializeFiles() {
         int numberOfPlayers = 0;
         rewind(playerFile);
         fwrite(&numberOfPlayers, sizeof(int), 1, playerFile);
+        
     }
-
+    fclose(playerFile);
     
 
     //Opens game saves file
@@ -118,7 +119,6 @@ bool initializeFiles() {
     }
     
     //Closes files
-    fclose(playerFile);
     fclose(gameFile);
 
     //Success
@@ -185,7 +185,7 @@ bool writeNewPlayer(tUser *player) {
     //Reads the number of Players
     int numberOfPlayers;
     rewind(playerFile);
-    fread(&numberOfPlayers, sizeof(tUser), 1, playerFile);
+    fread(&numberOfPlayers, sizeof(int), 1, playerFile);
     
     //Positions file cursor at the end of the file and writes new player
     fseek(playerFile, 0, SEEK_END);
@@ -241,17 +241,16 @@ bool writeNewGame(tGame *game) {
 // readNumberOfPlayers reads the number at the top of the Players file
 // and returns it. In case of an error, it returns -1.
 int readNumberOfPlayers() {
-
     //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "rb");
+    
     if (playerFile == NULL) return -1;
 
     //Reads the number
     int numberOfPlayers;
     rewind(playerFile);
-    fread(&numberOfPlayers, sizeof(tUser), 1, playerFile);
-
+    fread(&numberOfPlayers, sizeof(int), 1, playerFile);
     //Returns the number
     return numberOfPlayers;
 }
@@ -268,7 +267,7 @@ int readNumberOfGames() {
     //Reads the number
     int numberOfGames;
     rewind(gameFile);
-    fread(&numberOfGames, sizeof(tGame), 1, gameFile);
+    fread(&numberOfGames, sizeof(int), 1, gameFile);
 
     //Returns the number
     return numberOfGames;
@@ -354,11 +353,10 @@ bool loadGame(tGame *game, int wantedID) {
 // registered there into a vector of size numberOfPlayers, then returns the pointer
 // to the created vector. Returns NULL if an error occurres.
 tUser *convertPlayersToVector() {
-
+    
     //Reads the number of Players
     int numberOfPlayers = readNumberOfPlayers();
     if (numberOfPlayers == -1) return NULL;
-
     //Opens Players file
     FILE *playerFile;
     playerFile = fopen("assets/playerFile.dat", "a+b");
@@ -433,7 +431,7 @@ void rankPlayersByScore() {
 // Then, if the element exists, returns the player's ID. 
 // If there is no player with such name, returns -1.
 int searchPlayerByName(tUser *vector, char name[]) {
-    
+    if(vector == NULL) return -1;
     //Reads the size of the vector
     int numberOfPlayers = readNumberOfPlayers();
     if (numberOfPlayers == -1) return -1;
