@@ -167,6 +167,10 @@ tUser *sortUsers(int key){
 }
 */
 
+int binsearch_name(tUser *array,int size,char *name){
+
+}
+
 bool deleteUser(char * name){
     int size,idx;
     FILE *f;

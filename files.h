@@ -19,7 +19,7 @@ void sortUsers_name(tUser* array,int size);
 
 tUser *sortUsers(int key);
 
-int binsearch_name(array,size,name);
+int binsearch_name(tUser array,int size,char *name);
 
 bool deleteUser(char * name);
 
