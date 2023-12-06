@@ -167,15 +167,8 @@ tUser *sortUsers(int key){
 }
 */
 
-int binsearch_name(tUser *array,int size,char *name){
-    return binsearch_rec(array,0,size-1,name);
-}
-int binsearch_rec(tUser*a,int l,int r,char*n){
-    if(l>r) return -1;
-    int cmp=strcmp(a->name,n);
-    if(!cmp) return (l+r)/2;
-    if(cmp>0) return binsearch_rec(a,l,(l+r)/2,n);
-    else binsearch_rec(a,(l+r)/2,r,n);
+int binsearch_name(tUser *array,int size, char* name){
+    return -1;
 }
 
 bool deleteUser(char * name){

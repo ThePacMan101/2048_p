@@ -15,6 +15,7 @@ int main() {
 
     dopamineBomb(&game,DOPAMINEBOMB);
 
+
     initFiles();
 
     while (running) {
