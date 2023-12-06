@@ -5,6 +5,7 @@
         "random": "c",
         "game.h": "c",
         "stdlib.h": "c",
-        "files_alt.h": "c"
+        "files_alt.h": "c",
+        "options.h": "c"
     }
 }

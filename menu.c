@@ -1,13 +1,14 @@
 #include "menu.h"
+
 #include "game.h"
 
 void tickMainMenu(tCommand command, bool *running, tGame *game, tState *state) {
-    switch(command) {
+    switch (command) {
         case '1':
             *state = state_preGame;
             break;
         case '2':
-            //*state = state_optionsMenu;
+            *state = state_optionsMenu;
             break;
         case '3':
             //*state = state_rankingMenu;
@@ -27,7 +28,7 @@ void renderMainMenu(tState state) {
     renderLogo();
     renderOptions();
 }
-    
+
 //           ---------------------------------------------------------------------------------
 //          ____/\\\\\\\\\_________/\\\\\\\_______________/\\\________/\\\\\\\\\____
 //           __/\\\///////\\\_____/\\\/////\\\___________/\\\\\______/\\\///////\\\__

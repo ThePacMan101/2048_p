@@ -1,10 +1,12 @@
 #include "common.h"
-#include "preGame.h"
-#include "game.h"
-#include "menu.h"
+
+#include "credits.h"
 #include "defeatGame.h"
 #include "files.h"
-#include "credits.h"
+#include "game.h"
+#include "menu.h"
+#include "preGame.h"
+#include "options.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
@@ -12,7 +14,7 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
             tickMainMenu(command, running, game, state);
             break;
         case state_optionsMenu:
-            // TODO
+            tickOptions(command, running, game, state);
             break;
         case state_scoresMenu:
             // TODO
@@ -36,6 +38,12 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
         case state_creditsMenu:
             tickCredits(command, running, game, state);
             break;
+        case state_deleteUser:
+            tickDeleteUser(command, running, game, state);
+            break;
+        case state_deleteUser1:
+            tickDeleteUser1(command, running, game, state);
+            break;
         default:
             break;
     }
@@ -47,7 +55,7 @@ void render(tState state, tGame game) {
             renderMainMenu(state);
             break;
         case state_optionsMenu:
-            // TODO
+            renderOptionsOptions();
             break;
         case state_scoresMenu:
             // TODO
@@ -71,6 +79,12 @@ void render(tState state, tGame game) {
         case state_creditsMenu:
             renderCredits();
             break;
+        case state_deleteUser:
+            renderDeleteUser();
+            break;
+        case state_deleteUser1:
+            renderDeleteUser1(game);
+            break;
         default:
             break;
     }
@@ -78,7 +92,7 @@ void render(tState state, tGame game) {
 
 tCommand getCommand(tState state) {
     tCommand command = getch();
-    if((state==state_mainMenu)&&(command<'0'||command>'4')) return getCommand(state);
+    if ((state == state_mainMenu) && (command < '0' || command > '4')) return getCommand(state);
     return command;
 }
 
@@ -96,8 +110,8 @@ void emptyGameBoard(tGame *game) {
     game->board[2][2] = 0;
     game->board[2][3] = 0;
     game->board[3][0] = 0;
-    game->board[3][1] = 0; 
-    game->board[3][2] = 0; 
+    game->board[3][1] = 0;
+    game->board[3][2] = 0;
     game->board[3][3] = 0;
     return;
 }

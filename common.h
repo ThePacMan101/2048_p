@@ -26,6 +26,8 @@ typedef int tState;
 #define state_victoryGame 6
 #define state_preGame 7
 #define state_creditsMenu 8
+#define state_deleteUser 9
+#define state_deleteUser1 10
 // [...]
 // Each state defines a screen that a user may interact with
 
