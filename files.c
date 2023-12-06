@@ -127,77 +127,29 @@ void sortUsers_name(tUser* array,int size){
     }
 }
 
+int binSearchName(char nameToBeFound[]) {
+    tUser *array;
+    int size;
 
-// //Precisamos do "size" para a função de ordenar alfabético, para deletar depois
-// tUser *sortUsers(int key){
+    array = UserListToArray(&size);
 
-//     tUser* array;
-//     int size;
+    sortUsers_name(array, size);
 
-//     array = UserListToArray(&size);
+    int left = 0;
+    int right = size - 1;
 
-//     bool unordered = true;
-//     int k=0;
-//     tUser aux;
+    int middle;
 
-//     switch(key) {
-//         case 1:
-//             while(unordered){
-//                 unordered=false;
-//                 for(int i = 0 ; i < size-1-k ; i++){
-//                     if(array[i].highScore<array[i+1].highScore){
-//                         aux=array[i];
-//                         array[i]=array[i+1];
-//                         array[i+1]=aux;
-//                         unordered=true;
-//                     }
-//                 }
-//                 k++;
-//             }
-//             break;
-//         case 2:
-//             while(unordered){
-//                 unordered=false;
-//                 for(int i = 0 ; i < size-1-k ; i++){
-//                     if(strcmp(array[i].name,array[i+1].name)>0){
-//                         aux=array[i];
-//                         array[i]=array[i+1];
-//                         array[i+1]=aux;
-//                         unordered=true;
-//                     }
-//                 }
-//                 k++;
-//             }
-//         break;
-//     }
+    while(left <= right) {
+        middle = (left + right)/2;
 
-//     printf("\nSorted:\n");
-//     for(int i = 0; i < size; i++) {
-//         printf("\n\n%s %d\n\n", (*(array + i)).name, (*(array+i)).highScore);
-//     }
+        printf("\n\n%s\n\n", (*(array + middle)).name); getchar();
 
+        if (strcmp((*(array + middle)).name, nameToBeFound) > 0) right = middle - 1;
+        else if (strcmp((*(array + middle)).name, nameToBeFound) < 0) left = middle + 1;
+        else return middle;
+    }
 
-//     return array;
-// }
+    return -1;
 
-//MUDAR AS FUNÇÕES DE "sizeANHO" para "SIZE"
-
-// int binSearchName(char nameToBeFound[]) {
-//     tUser *array;
-//     int size;
-//     array = sortUsers(&size, 2);
-
-//     int left = 0;
-//     int right = size - 1;
-//     int middle;
-
-//     while(left <= right) {
-//         middle = (left + right)/2;
-//         if (strcmp((array + middle)->name, nameToBeFound) < 0) right = middle - 1;
-//         else if (strcmp((array + middle)->name, nameToBeFound) > 0) left = middle + 1;
-//         else return middle;
-//     }
-
-//     return -1;
-
-// }
+}
