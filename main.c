@@ -17,6 +17,8 @@ int main() {
 
     initFiles();
 
+    sortUsers(2); getchar();
+
     while (running) {
         render(state, game);                 // show current state graphics
         key = getCommand(state);             // get user command
