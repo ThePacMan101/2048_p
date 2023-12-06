@@ -119,3 +119,49 @@ void sortUsers_name(tUser* array,int tam){
         k++;
     }
 }
+
+tUser *sortUsers(int key){
+
+    tUser* array;
+    int tam;
+
+    array = UserListToArray(&tam);
+
+    bool unordered = true;
+    int k=0;
+    tUser aux;
+
+    switch(key) {
+        case 1:
+            while(unordered){
+                unordered=false;
+                for(int i = 0 ; i < tam-1-k ; i++){
+                    if(array[i].highScore<array[i+1].highScore){
+                        aux=array[i];
+                        array[i]=array[i+1];
+                        array[i+1]=aux;
+                        unordered=true;
+                    }
+                }
+                k++;
+            }
+            break;
+        case 2:
+            while(unordered){
+                unordered=false;
+                for(int i = 0 ; i < tam-1-k ; i++){
+                    if(strcmp(array[i].name,array[i+1].name)>0){
+                        aux=array[i];
+                        array[i]=array[i+1];
+                        array[i+1]=aux;
+                        unordered=true;
+                    }
+                }
+                k++;
+            }
+        break;
+    }
+
+
+    return array;
+}

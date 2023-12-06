@@ -17,4 +17,6 @@ void sortUsers_highScore(tUser* array,int tam);
 
 void sortUsers_name(tUser* array,int tam);
 
+tUser *sortUsers(int key);
+
 #endif
