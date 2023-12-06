@@ -39,6 +39,8 @@ void login(tGame *game) {
     printf("\n");
     printf("\tEnter your username: ");
     scanf("%s", user.name);
+    int i = 0;
+    while(user.name[i]!='\0'){ user.name[i]=tolower(user.name[i]);i++;}
     loadUser(&user);
     game->user=user;
 }
