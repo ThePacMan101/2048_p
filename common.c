@@ -1,5 +1,4 @@
 #include "common.h"
-
 #include "credits.h"
 #include "defeatGame.h"
 #include "files.h"
@@ -7,6 +6,7 @@
 #include "menu.h"
 #include "preGame.h"
 #include "options.h"
+#include "ranking.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
@@ -20,7 +20,7 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
             // TODO
             break;
         case state_rankingMenu:
-            // TODO
+            tickRanking(command, running, game, state);
             break;
         case state_playingGame:
             tickPlayingGame(command, running, game, state);
@@ -61,7 +61,7 @@ void render(tState state, tGame game) {
             // TODO
             break;
         case state_rankingMenu:
-            // TODO
+            renderRanking();
             break;
         case state_playingGame:
             renderPlayingGame(state, game);

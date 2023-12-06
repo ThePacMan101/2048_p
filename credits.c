@@ -8,13 +8,14 @@ void renderCredits() {
     renderLogo();
     printf("\n");
 
-    printf("\tDeveloped by:\n\n");
+    printf("\tDeveloped by:\n");
+    printf("\t\t[0] Exit\n\n");
     
-    printf("\t \e[1;31mLeonardo Lima Santos\x1b[0m \n");
-    printf("\t \e[1;33mLucas Pimentel Alves da Costa\x1b[0m \n");
-    printf("\t \e[1;34mPaulo Roberto Ferreira de Godoy Moreira\x1b[0m\n");
-    printf("\t \e[1;35mVitor Amaral Bedin\x1b[0m \n");
+    printf("\t\t\t\e[1;31m              Leonardo Lima Santos\x1b[0m \n");
+    printf("\t\t\t\e[1;33m          Lucas Pimentel Alves da Costa\x1b[0m \n");
+    printf("\t\t\t\e[1;34m     Paulo Roberto Ferreira de Godoy Moreira\x1b[0m\n");
+    printf("\t\t\t\e[1;35m               Vitor Amaral Bedin\x1b[0m \n");
 
     printf("\n");
-    printf("\t[0] Exit\n");
+    
 }

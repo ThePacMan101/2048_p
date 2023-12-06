@@ -1,6 +1,6 @@
 #include "options.h"
-
 #include "common.h"
+#include "files.h"
 
 void tickOptions(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
@@ -38,7 +38,7 @@ void renderDeleteUser() {
 void tickDeleteUser1(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
         case '1':
-            if (1) {
+            if (deleteUser(game->user.name)) {
                 renderLogo();
                 printf("\n");
                 printf("\tUser deleted successfully!\n");
