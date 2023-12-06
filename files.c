@@ -167,7 +167,7 @@ tUser *sortUsers(int key){
 }
 */
 
-void deleteUser(char * name){
+bool deleteUser(char * name){
     int size,idx;
     FILE *f;
     tUser*array;
@@ -175,8 +175,10 @@ void deleteUser(char * name){
     sortUsers_name(array,size);
     idx=binsearch_name(array,size,name);
     
-    if(idx!=-1){
+    if(idx==-1) return false;
+    else{
         f=fopen("assets/players.dat","wb");
+        if(!f) return false;
         for(int i = 0 ; i < size-1 ; i ++){
             if(i!=idx) fwrite(array[i].name,20,1,f);
         }
@@ -186,6 +188,8 @@ void deleteUser(char * name){
     char filename[30]="assets/";
     strcat(filename,name);
     strcat(filename,".dat");
-    remove(filename);
+    
+    if(!remove(filename)) return false;
 
+    return true;
 }

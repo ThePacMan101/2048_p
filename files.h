@@ -21,4 +21,6 @@ tUser *sortUsers(int key);
 
 int binsearch_name(array,size,name);
 
+bool deleteUser(char * name);
+
 #endif
