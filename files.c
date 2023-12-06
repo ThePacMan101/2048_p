@@ -83,3 +83,21 @@ void loadUser(tUser *user){
     fclose(f);
     return;
 }
+
+void sortUsers(tUser* array,int tam){
+    bool unordered = true;
+    int k=0;
+    tUser aux;
+    while(!unordered){
+        unordered=false;
+        for(int i = 0 ; i < tam-1-k ; i++){
+            if(array[i].highScore<array[i+1].highScore){
+                aux=array[i];
+                array[i]=array[i+1];
+                array[i+1]=aux;
+                unordered=true;
+            }
+        }
+        k++;
+    }
+}
