@@ -16,16 +16,16 @@ void saveUserList(tUser user){
     fclose(f);
 }
 
-tUser* UserListToArray(int*tam){
+tUser* UserListToArray(int*size){
     FILE *listFile=fopen("assets/players.dat","r+b");
     FILE *aux;
     char filename[30];
     char name[20];
     fseek(listFile,0,SEEK_END);
-    *tam=ftell(listFile)/20;
-    tUser *array=(tUser*)malloc((*tam)*sizeof(tUser));
+    *size=ftell(listFile)/20;
+    tUser *array=(tUser*)malloc((*size)*sizeof(tUser));
     rewind(listFile);
-    for(int i = 0 ; i < *tam ; i ++){
+    for(int i = 0 ; i < *size ; i ++){
         fread(name,20,1,listFile);
         strcpy(filename,"assets/");
         strcat(filename,name);
@@ -84,89 +84,120 @@ void loadUser(tUser *user){
     return;
 }
 
-// void sortUsers_highScore(tUser* array,int tam){
-//     bool unordered = true;
-//     int k=0;
-//     tUser aux;
-//     while(unordered){
-//         unordered=false;
-//         for(int i = 0 ; i < tam-1-k ; i++){
-//             if(array[i].highScore<array[i+1].highScore){
-//                 aux=array[i];
-//                 array[i]=array[i+1];
-//                 array[i+1]=aux;
-//                 unordered=true;
-//             }
-//         }
-//         k++;
-//     }
-// }
+tUser *sortUsers_highScore(int *size) {
 
-// void sortUsers_name(tUser* array,int tam){
-//     bool unordered = true;
-//     int k=0;
-//     tUser aux;
-//     while(unordered){
-//         unordered=false;
-//         for(int i = 0 ; i < tam-1-k ; i++){
-//             if(strcmp(array[i].name,array[i+1].name)>0){
-//                 aux=array[i];
-//                 array[i]=array[i+1];
-//                 array[i+1]=aux;
-//                 unordered=true;
-//             }
-//         }
-//         k++;
-//     }
-// }
-
-tUser *sortUsers(int key){
-
-    tUser* array;
-    int tam;
-
-    array = UserListToArray(&tam);
+    tUser *array;
+    array = UserListToArray(size);
+    
 
     bool unordered = true;
     int k=0;
     tUser aux;
-
-    switch(key) {
-        case 1:
-            while(unordered){
-                unordered=false;
-                for(int i = 0 ; i < tam-1-k ; i++){
-                    if(array[i].highScore<array[i+1].highScore){
-                        aux=array[i];
-                        array[i]=array[i+1];
-                        array[i+1]=aux;
-                        unordered=true;
-                    }
-                }
-                k++;
+    while(unordered){
+        unordered=false;
+        for(int i = 0 ; i < *size-1-k ; i++){
+            if(array[i].highScore<array[i+1].highScore){
+                aux=array[i];
+                array[i]=array[i+1];
+                array[i+1]=aux;
+                unordered=true;
             }
-            break;
-        case 2:
-            while(unordered){
-                unordered=false;
-                for(int i = 0 ; i < tam-1-k ; i++){
-                    if(strcmp(array[i].name,array[i+1].name)>0){
-                        aux=array[i];
-                        array[i]=array[i+1];
-                        array[i+1]=aux;
-                        unordered=true;
-                    }
-                }
-                k++;
-            }
-        break;
+        }
+        k++;
     }
-
-    printf("\nSorted:\n");
-    for(int i = 0; i < tam; i++) {
-        printf("\n\n%s %d\n\n", (*(array + i)).name, (*(array+i)).highScore);
-    }
-
 
     return array;
 }
+
+void sortUsers_name(tUser* array,int size){
+    bool unordered = true;
+    int k=0;
+    tUser aux;
+    while(unordered){
+        unordered=false;
+        for(int i = 0 ; i < size-1-k ; i++){
+            if(strcmp(array[i].name,array[i+1].name)>0){
+                aux=array[i];
+                array[i]=array[i+1];
+                array[i+1]=aux;
+                unordered=true;
+            }
+        }
+        k++;
+    }
+}
+
+
+// //Precisamos do "size" para a função de ordenar alfabético, para deletar depois
+// tUser *sortUsers(int key){
+
+//     tUser* array;
+//     int size;
+
+//     array = UserListToArray(&size);
+
+//     bool unordered = true;
+//     int k=0;
+//     tUser aux;
+
+//     switch(key) {
+//         case 1:
+//             while(unordered){
+//                 unordered=false;
+//                 for(int i = 0 ; i < size-1-k ; i++){
+//                     if(array[i].highScore<array[i+1].highScore){
+//                         aux=array[i];
+//                         array[i]=array[i+1];
+//                         array[i+1]=aux;
+//                         unordered=true;
+//                     }
+//                 }
+//                 k++;
+//             }
+//             break;
+//         case 2:
+//             while(unordered){
+//                 unordered=false;
+//                 for(int i = 0 ; i < size-1-k ; i++){
+//                     if(strcmp(array[i].name,array[i+1].name)>0){
+//                         aux=array[i];
+//                         array[i]=array[i+1];
+//                         array[i+1]=aux;
+//                         unordered=true;
+//                     }
+//                 }
+//                 k++;
+//             }
+//         break;
+//     }
+
+//     printf("\nSorted:\n");
+//     for(int i = 0; i < size; i++) {
+//         printf("\n\n%s %d\n\n", (*(array + i)).name, (*(array+i)).highScore);
+//     }
+
+
+//     return array;
+// }
+
+//MUDAR AS FUNÇÕES DE "sizeANHO" para "SIZE"
+
+// int binSearchName(char nameToBeFound[]) {
+//     tUser *array;
+//     int size;
+//     array = sortUsers(&size, 2);
+
+//     int left = 0;
+//     int right = size - 1;
+//     int middle;
+
+//     while(left <= right) {
+//         middle = (left + right)/2;
+//         if (strcmp((array + middle)->name, nameToBeFound) < 0) right = middle - 1;
+//         else if (strcmp((array + middle)->name, nameToBeFound) > 0) left = middle + 1;
+//         else return middle;
+//     }
+
+//     return -1;
+
+// }

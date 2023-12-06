@@ -17,7 +17,26 @@ int main() {
 
     initFiles();
 
-    sortUsers(2); getchar();
+    tUser *array;
+    int d;
+    array = sortUsers_highScore(&d); 
+    
+        
+    printf("\nSorted:\n");
+    for(int i = 0; i < d; i++) {
+        printf("\n\n%s %d\n\n", (*(array + i)).name, (*(array+i)).highScore);
+    }
+    
+    
+    getchar();
+    
+
+    // int d;
+    // d = binSearchName("lucas");
+    // printf("\n\n%d\n\n", &d);
+
+    // getchar();
+
 
     while (running) {
         render(state, game);                 // show current state graphics
