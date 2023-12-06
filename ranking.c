@@ -22,7 +22,7 @@ void renderRanking() {
 
     int size;
     
-    tUser *array = sortUsersByHighScore(&size);
+    sortUsersByHighScore(&size);
 
     
     

@@ -104,11 +104,12 @@ tUser *sortUsersByHighScore(int *size) {
         k++;
     }
     printf("\n");
-    printf("\t\t\t\t \033[1;33m%d:      %-6d         %s\033[0m\n", 1, array[0].highScore, array[0].name);
-    printf("\t\t\t\t %d:      %-6d         %s\n", 2, array[1].highScore, array[1].name);
-    printf("\t\t\t\t \x1b[38;5;172m%d:      %-6d         %s\033[0m\n", 3, array[2].highScore, array[2].name);
+    if(*size>0)printf("\t\t\t\t \033[1;33m%d:      %-6d         %s\033[0m\n", 1, array[0].highScore, array[0].name);
+    if(*size>1)printf("\t\t\t\t %d:      %-6d         %s\n", 2, array[1].highScore, array[1].name);
+    if(*size>2)printf("\t\t\t\t \x1b[38;5;172m%d:      %-6d         %s\033[0m\n", 3, array[2].highScore, array[2].name);
     printf("\n");
     for (int i = 3; i < *size; i++) {
+        if(i>9) break;
         printf("\t\t\t\t \033[1;30m%d:      %-6d         %s\033[0m\n", i + 1, array[i].highScore, array[i].name);
     }
 
