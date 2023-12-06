@@ -166,7 +166,7 @@ bool deleteUser(char *name) {
     else {
         f = fopen("assets/players.dat", "wb");
         if (!f) return false;
-        for (int i = 0; i < size - 1; i++) {
+        for (int i = 0; i < size; i++) {
             if (i != idx) fwrite(array[i].name, 20, 1, f);
         }
         fclose(f);
