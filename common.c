@@ -1,5 +1,5 @@
 #include "common.h"
-#include "preGame.h"
+#include "pregame.h"
 #include "game.h"
 #include "menu.h"
 #include "defeatGame.h"
@@ -9,7 +9,7 @@
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
     switch (*state) {
         case state_mainMenu:
-            tickMainMenu(command, running, game, state);
+            tickMainMenu(command, running, game, state); 
             break;
         case state_optionsMenu:
             // TODO

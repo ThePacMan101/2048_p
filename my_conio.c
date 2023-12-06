@@ -1,5 +1,5 @@
 #include "my_conio.h"
-/*
+
 int getch(void)
 {
     struct termios oldattr, newattr;
@@ -12,4 +12,3 @@ int getch(void)
     tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
     return ch;
 }
-*/

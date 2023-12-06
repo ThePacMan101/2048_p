@@ -69,7 +69,6 @@ void loadUser(tUser *user){
     strcat(filename,".dat");
     f=fopen(filename,"r+b");
     if(!f){
-        fclose(f);
         saveUserList(*user);
         saveUser(*user);
         return;
