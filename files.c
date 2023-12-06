@@ -151,5 +151,4 @@ int binSearchName(char nameToBeFound[]) {
     }
 
     return -1;
-
 }
