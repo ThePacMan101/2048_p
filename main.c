@@ -15,6 +15,8 @@ int main() {
 
     dopamineBomb(&game,DOPAMINEBOMB);
 
+    // deleteUser("vitor");
+    // getchar();
 
     initFiles();
 
