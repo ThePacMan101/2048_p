@@ -31,8 +31,8 @@ void tickDeleteUser(tCommand command, bool *running, tGame *game, tState *state)
     aux[1]='\0';                        //  function in getCommand() in the main.c file
     strcat(aux,aux2);                   //  skipping the first letter of the input
     strcpy(game->user.name,aux);        //  the fix is to concat some strings
-    printf("\n\n%s",game->user.name);   //  so that in the end whe have that
-    getch();                            //  game->user.name == command+(result of scanf)
+    //printf("\n\n%s",game->user.name); //  so that in the end whe have that
+    //getch();                          //  game->user.name == command+(result of scanf)
     *state = state_deleteUser1;         //  it also prints command on screen so that it gets seemless
 }                                       //  to the user. Known Issue: Cannot erase first letter after
                                         //  typing once
