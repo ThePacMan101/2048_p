@@ -16,16 +16,16 @@ void saveUserList(tUser user){
     fclose(f);
 }
 
-tUser* UserListToArray(int*tam){
+tUser* userListToArray(int*size){
     FILE *listFile=fopen("assets/players.dat","r+b");
     FILE *aux;
     char filename[30];
     char name[20];
     fseek(listFile,0,SEEK_END);
-    *tam=ftell(listFile)/20;
-    tUser *array=(tUser*)malloc((*tam)*sizeof(tUser));
+    *size=ftell(listFile)/20;
+    tUser *array=(tUser*)malloc((*size)*sizeof(tUser));
     rewind(listFile);
-    for(int i = 0 ; i < *tam ; i ++){
+    for(int i = 0 ; i < *size ; i ++){
         fread(name,20,1,listFile);
         strcpy(filename,"assets/");
         strcat(filename,name);
@@ -84,13 +84,13 @@ void loadUser(tUser *user){
     return;
 }
 
-void sortUsers_highScore(tUser* array,int tam){
+void sortUsers_highScore(tUser* array,int size){
     bool unordered = true;
     int k=0;
     tUser aux;
     while(unordered){
         unordered=false;
-        for(int i = 0 ; i < tam-1-k ; i++){
+        for(int i = 0 ; i < size-1-k ; i++){
             if(array[i].highScore<array[i+1].highScore){
                 aux=array[i];
                 array[i]=array[i+1];
@@ -102,13 +102,13 @@ void sortUsers_highScore(tUser* array,int tam){
     }
 }
 
-void sortUsers_name(tUser* array,int tam){
+void sortUsers_name(tUser* array,int size){
     bool unordered = true;
     int k=0;
     tUser aux;
     while(unordered){
         unordered=false;
-        for(int i = 0 ; i < tam-1-k ; i++){
+        for(int i = 0 ; i < size-1-k ; i++){
             if(strcmp(array[i].name,array[i+1].name)>0){
                 aux=array[i];
                 array[i]=array[i+1];
@@ -119,13 +119,13 @@ void sortUsers_name(tUser* array,int tam){
         k++;
     }
 }
-
+/*
 tUser *sortUsers(int key){
 
     tUser* array;
-    int tam;
+    int size;
 
-    array = UserListToArray(&tam);
+    array = userListToArray(&size);
 
     bool unordered = true;
     int k=0;
@@ -135,7 +135,7 @@ tUser *sortUsers(int key){
         case 1:
             while(unordered){
                 unordered=false;
-                for(int i = 0 ; i < tam-1-k ; i++){
+                for(int i = 0 ; i < size-1-k ; i++){
                     if(array[i].highScore<array[i+1].highScore){
                         aux=array[i];
                         array[i]=array[i+1];
@@ -149,7 +149,7 @@ tUser *sortUsers(int key){
         case 2:
             while(unordered){
                 unordered=false;
-                for(int i = 0 ; i < tam-1-k ; i++){
+                for(int i = 0 ; i < size-1-k ; i++){
                     if(strcmp(array[i].name,array[i+1].name)>0){
                         aux=array[i];
                         array[i]=array[i+1];
@@ -164,4 +164,28 @@ tUser *sortUsers(int key){
 
 
     return array;
+}
+*/
+
+void deleteUser(char * name){
+    int size,idx;
+    FILE *f;
+    tUser*array;
+    array = userListToArray(&size);
+    sortUsers_name(array,size);
+    idx=binsearch_name(array,size,name);
+    
+    if(idx!=-1){
+        f=fopen("assets/players.dat","wb");
+        for(int i = 0 ; i < size-1 ; i ++){
+            if(i!=idx) fwrite(array[i].name,20,1,f);
+        }
+        fclose(f);
+    }
+    
+    char filename[30]="assets/";
+    strcat(filename,name);
+    strcat(filename,".dat");
+    remove(filename);
+
 }
