@@ -4,7 +4,7 @@
 #include "files.h"
 #include "game.h"
 #include "menu.h"
-#include "preGame.h"
+#include "pregame.h"
 #include "options.h"
 #include "ranking.h"
 

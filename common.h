@@ -1,7 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <conio.h>
+#include <conio.h>              // Comment this line if on Linux and uncomment the following one
 //#include "my_conio.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,7 +15,7 @@
 #define true 1
 #define false 0
 
-// game-states definition:
+// Game-states definition:
 typedef int tState;
 #define state_mainMenu 0
 #define state_optionsMenu 1
@@ -31,6 +31,7 @@ typedef int tState;
 // [...]
 // Each state defines a screen that a user may interact with
 
+// Associations between each key yhe user may press with a character:
 typedef char tCommand;
 #define key_UP 'w'
 #define key_DOWN 's'
@@ -41,13 +42,15 @@ typedef char tCommand;
 #define key_LEAVE '0'
 #define key_INVALID '\0'
 
+// Struct used to describe the players
 typedef struct {
-    int id;
+    int id;         // Can later be used to save and load unfinished games
     char name[20];
     int highScore;
     //[...] TODO
 } tUser;
 
+// Struct used to describe the games
 typedef struct {
     int board[4][4];
     tUser user;
@@ -55,25 +58,31 @@ typedef struct {
 } tGame;
 
 /*
-The tick function calls other functions depending on the current state
-it also updates all global variables based on user's last input key
+The tick function calls other functions depending on the current state of the program.
+It also updates all global variables (3 last parameters) based on user's last input key.
 */
-
 void tick(tCommand command, bool *running, tGame *game, tState *state);
 
 /*
 The render function calls other functions to show the screen based on the
-current state and the game variable
+current state of the program and the game variables at the moment.
 */
 void render(tState state, tGame game);
 
+/* 
+getCommand reads an input coming from the user's keyboard and loads the next game state.
+If the command is invalid, it reads again until the key pressed is a valid one.
+*/ 
 tCommand getCommand(tState state);
 
 /*
-The renderLogo function shows the game logo art on the screen
+The renderLogo function shows the game logo art on the top of the screen.
 */
 void renderLogo();
 
+/*
+The emptyGameBoard function simply turns all of the elements of the board matrix to 0.
+*/
 void emptyGameBoard(tGame *game);
 
 #endif
