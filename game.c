@@ -1,9 +1,11 @@
 #include "game.h"
 #include "common.h"
 #include "files.h"
-#include "menu.h"
 #include "queue.h"
+#include "menu.h"
 
+//This definition of the game board is used to help the developers code/type
+#define b(i, j) game->board[i][j] 
 
 void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state) {
     switch (command) {
@@ -11,14 +13,15 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
             if(game->user.id!=-1) saveUser(game->user);
             *state = state_mainMenu;
             break;
+        //If any command key is pressed (Down, left, right, up):  
         case key_DOWN:
         case key_LEFT:
         case key_RIGHT:
         case key_UP:
-            checkForGameOver(game, state);
-            tGame gameBeforeMove = *game;
-            move(command, game);
-            if(game->score > game->user.highScore) game->user.highScore=game->score;
+            checkForGameOver(game, state); //Checks for game over
+            tGame gameBeforeMove = *game; 
+            move(command, game); //Makes the move inputed by the user
+            if(game->score > game->user.highScore) game->user.highScore=game->score; //Updates the user highscore if needed
             if (memcmp(&gameBeforeMove, game, sizeof(tGame)) == 0) {
                 break;
             }
@@ -29,7 +32,6 @@ void tickPlayingGame(tCommand command, bool *running, tGame *game, tState *state
     }
 }
 
-#define b(i, j) game->board[i][j]
 void spawnNewNumbers(tGame *game) {
     int v[16] = {0};
     int k = 0;
@@ -38,7 +40,7 @@ void spawnNewNumbers(tGame *game) {
             if (!b(i, j)) {
                 v[4 * i + j] = ++k;
             }
-    if (!k) return;
+    if (!k) return; //There are no blank positions 
 
     int random = rand() % k + 1;
     for (int i = 0; i < 16; i++)
@@ -111,7 +113,7 @@ void move(tCommand command, tGame *game) {
                         if (prev == b(i, j)) {
                             b(i, j) = 0;
                             b(i, idx) = 2 * prev;
-                            game->score += 2 * prev;
+                            game->score += 2 * prev; //Updates the game score
                             prev = 0;
                             idx = -1;
                         } else {
@@ -229,33 +231,38 @@ void printByColor(int number) {
     int exponent = 0;
     while (number > 1) {
         number /= 2;
-        exponent++;
+        exponent++; //Defines what exponent of 2 the number is 
     }
     int red = 255 - (exponent * 255) / 11;  // Calculate red component
     int blue = (exponent * 255) / 11;       // Calculate blue component
-    printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, blue, 1 << exponent);
+    printf("\033[38;2;%d;0;%dm%-4d\033[0m", red, blue, 1 << exponent); //prints with specific color
     return;
 }
 
 void startGame(tGame *game) {
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++) game->board[i][j] = 0;
+
+    emptyGameBoard(game);
+
+    // for (int i = 0; i < 4; i++)
+    //     for (int j = 0; j < 4; j++) game->board[i][j] = 0;
     game->score = 0;
-    spawnNewNumbers(game);
+
+    //All games start with 2 random numbers. 
+    spawnNewNumbers(game); 
     spawnNewNumbers(game);
 }
 
 void checkForGameOver(tGame *game, tState *state) {
     tGame auxiliar = *game;
     move(key_UP, &auxiliar);
-    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0) //Check if we can move the game up
         move(key_LEFT, &auxiliar);
-    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0) //Check if we can move the game left
         move(key_DOWN, &auxiliar);
-    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0) //Check if we can move the game down
         move(key_RIGHT, &auxiliar);
-    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0)
-        *state = state_defeatGame;
+    if (memcmp(&auxiliar, game, sizeof(tGame)) == 0) //Check if we can move the game right
+        *state = state_defeatGame; // If the board didn't change in any of the moves, then the game is over
     saveUser(game->user);
     return;
 }

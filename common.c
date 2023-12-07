@@ -1,15 +1,16 @@
 #include "common.h"
-#include "credits.h"
-#include "defeatGame.h"
 #include "files.h"
 #include "game.h"
 #include "menu.h"
-#include "pregame.h"
-#include "options.h"
-#include "ranking.h"
+// #include "menu.h"
+// #include "pregame.h"
+// #include "credits.h"
+// #include "defeatGame.h"
+// #include "options.h"
+// #include "ranking.h"
 
 void tick(tCommand command, bool *running, tGame *game, tState *state) {
-    switch (*state) {
+    switch (*state) { //Redirects the tick depending on the current state of the game
         case state_mainMenu:
             tickMainMenu(command, running, game, state);
             break;
@@ -50,12 +51,12 @@ void tick(tCommand command, bool *running, tGame *game, tState *state) {
 }
 
 void render(tState state, tGame game) {
-    switch (state) {
-        case state_mainMenu:
+    switch (state) { //Redirects the render depending on the current state of the game
+        case state_mainMenu: 
             renderMainMenu(state);
             break;
         case state_optionsMenu:
-            renderOptionsOptions();
+            renderOptions();
             break;
         case state_scoresMenu:
             // TODO
@@ -114,21 +115,4 @@ void emptyGameBoard(tGame *game) {
     game->board[3][2] = 0;
     game->board[3][3] = 0;
     return;
-}
-
-void renderLogo() {
-    printf("\e[1;1H\e[2J");
-    printf("\t___________________________________________________________________________________\n\n\n");
-    //          ---------------------------------------------------------------------------------
-    printf("\t\033[38;2;0;0;255m    /\\\\\\\\\\\\\\\\\\         /\\\\\\\\\\\\\\               /\\\\\\        /\\\\\\\\\\\\\\\\\\            \033[0m\n");
-    printf("\t\033[38;2;0;0;255m   /\\\\\\///////\\\\\\     /\\\\\\/////\\\\\\           /\\\\\\\\\\      /\\\\\\///////\\\\\\         \033[0m\n");
-    printf("\t\033[38;2;0;0;255m   \\///      \\//\\\\\\   /\\\\\\    \\//\\\\\\        /\\\\\\/\\\\\\     \\/\\\\\\     \\/\\\\\\        \033[0m\n");
-    printf("\t\033[38;2;0;0;255m              /\\\\\\/   \\/\\\\\\     \\/\\\\\\      /\\\\\\/\\/\\\\\\     \\///\\\\\\\\\\\\\\\\\\/        \033[0m\n");
-    printf("\t\033[38;2;0;0;255m            /\\\\\\//     \\/\\\\\\     \\/\\\\\\    /\\\\\\/  \\/\\\\\\      /\\\\\\///////\\\\\\      \033[0m\n");
-    printf("\t\033[38;2;0;0;255m          /\\\\\\//        \\/\\\\\\     \\/\\\\\\  /\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  /\\\\\\      \\//\\\\\\    \033[0m\n");
-    printf("\t\033[38;2;0;0;255m         /\\\\\\/           \\//\\\\\\    /\\\\\\  \\///////////\\\\\\//  \\//\\\\\\      /\\\\\\    \033[0m\n");
-    printf("\t\033[38;2;0;0;255m         /\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  \\///\\\\\\\\\\\\\\/             \\/\\\\\\     \\///\\\\\\\\\\\\\\\\\\/    \033[0m\n");
-    printf("\t\033[38;2;0;0;255m         \\///////////////     \\///////               \\///        \\/////////     \033[0m\n");
-    printf("\n");
-    printf("\t___________________________________________________________________________________\n");
 }

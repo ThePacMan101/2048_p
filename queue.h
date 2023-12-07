@@ -3,6 +3,10 @@
 
 #include "common.h"
 
+/*
+This header has all definitions of a queue, as shown in class
+*/
+
 typedef struct key {
     int number;
     // int idx;
