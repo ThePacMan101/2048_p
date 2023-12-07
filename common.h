@@ -14,7 +14,7 @@
 #define true 1
 #define false 0
 
-// game-states definition:
+// Game-states definition:
 typedef int tState;
 #define state_mainMenu 0
 #define state_optionsMenu 1
