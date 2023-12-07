@@ -6,6 +6,7 @@
         "game.h": "c",
         "stdlib.h": "c",
         "files_alt.h": "c",
-        "options.h": "c"
+        "options.h": "c",
+        "files.h": "c"
     }
 }
